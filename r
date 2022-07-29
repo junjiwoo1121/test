@@ -42,12 +42,16 @@ style_duo_accent(
 
 ### Standardization and Normalization for Numerical Data
 
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+
 Feature scaling
 - Algorithms that compute the distance between the features are biased towards numerically larger values if the data is not scaled.
 - Some algorithms are fairly insensitive to the scale of the features, e.g., tree-based algorithms.
 - Feature scaling helps algorithms train and converge faster, e.g., deep learning.
 
 ---
+
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 Min-max normalization: linearly map to a new minimum $a$ and maximum $b$
 
@@ -56,6 +60,8 @@ $$X_{new} = \frac{X-X_{min}}{X_{max}-X_{min}}(b-a)+a$$
 - Not ideal when we have outliers
 
 ---
+
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 Standardization or Z-Score Normalization:
 
@@ -66,12 +72,16 @@ $$X_{new} = \frac{X-X_{mean}}{X_{Std}}$$
 
 ---
 
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+
 Decimal scaling
 
 $$X_{new} = \frac{X}{{10}^k}$$
 where $k$ is smallest integer such that $max(|X_{new}|) \le 1$
 
 ---
+
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 $L^k$ Norm Normalization
 
@@ -81,6 +91,8 @@ $$
 where $||X||_k=\sqrt{X_1^k+X_2^k+...+X_n^k}$.
 
 ---
+
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 Power transformations
 
@@ -96,6 +108,8 @@ $$
 
 ### Bining for Numerical Data
 
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+
 - Combine specific ranges to reduce level/numerical range.
 - Losing information.
 - May speed up the training process.
@@ -104,6 +118,8 @@ $$
 
 ### Encoding for Categorical Data
 
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+
 - One-hot encoding
 - Deep learning
 - Cartesian product of two or more features
@@ -111,6 +127,8 @@ $$
 ---
 
 ### Other
+
+<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - Date and Time
 - Currency
