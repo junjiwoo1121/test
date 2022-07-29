@@ -1,6 +1,6 @@
 ---
 title: "Predictive Analytics"
-subtitle: "Linear Model"  
+subtitle: "Data Preprocessing"  
 author: "Zhiyu (Frank) Quan"
 institute: "University of Illinois Urbana-Champaign"
 #date: "2022/04/01 (updated: `r Sys.Date()`)"
@@ -40,98 +40,81 @@ style_duo_accent(
 ```
 
 
+### Standardization and Normalization for Numerical Data
 
-
-### Linear Model in Machine Learning
-
-- Traditional notation
-$$\underline{Y}=\mathbf{X}\underline{\beta}+\underline{\epsilon}$$
-
-$$\hat{y}_i=\hat\beta_0+\hat\beta_1x_{i1}+\hat\beta_2x_{i2}+\ldots + \hat\beta_px_{ip}$$
-
-- New notation
-$$\hat{y}_i=\hat{b}+\hat{w_1}x_{i1}+\hat{w_2}x_{i2}+\ldots + \hat{w_p}x_{ip}$$
-$$\underline{\hat{Y}}=\mathbf{X}\underline{w}+\underline{b}$$
-
+Feature scaling
+- Algorithms that compute the distance between the features are biased towards numerically larger values if the data is not scaled.
+- Some algorithms are fairly insensitive to the scale of the features, e.g., tree-based algorithms.
+- Feature scaling helps algorithms train and converge faster, e.g., deep learning.
 
 ---
 
-#### Loss Function
+Min-max normalization: linearly map to a new minimum $a$ and maximum $b$
 
-- Squared error
 
-$$l_i(\underline{w}, \underline{b})=\frac{1}{2}(\hat{y}_i-y_i)^2$$
-  - $\frac{1}{2}$ makes no real difference but will prove notationally convenient, i.e., canceling out when we take the derivative of the loss.
-  
-- Model loss 
-
-$$L(\underline{w}, \underline{b})=\frac{1}{n}\sum_{i=1}^nl_i(\underline{w}, \underline{b})=\frac{1}{n}\sum_{i=1}^n\frac{1}{2}(\underline{w}^T\underline{x_i}+b-y_i)^2$$
+$$X_{new} = \frac{X-X_{min}}{X_{max}-X_{min}}(b-a)+a$$
+- Not ideal when we have outliers
 
 ---
 
-#### Optimization
+Standardization or Z-Score Normalization:
 
-$$\hat{\underline{w}}, \hat{\underline{b}}=\arg\min_{\underline{w}, \underline{b}} L(\underline{w}, \underline{b})$$
+$$X_{new} = \frac{X-X_{mean}}{X_{Std}}$$
 
----
-
-#### Minibatch Stochastic Gradient Descent
-
-- Gradient descent: the technique is iteratively reducing the error by updating the parameters in the direction that incrementally lowers the loss function.
-  - The naive gradient descent consists of taking the derivative of the loss function.
-  - This can be extremely slow when we have a large dataset since we must pass over the entire dataset before making a single update.
-- Minibatch stochastic gradient descent
-  - Each iteration, sampling a random minibatch of the dataset.
-  - Compute and update parameters using this small random sample.
+- Changing mean and standard deviation to a standard normal distribution which is still normal thus the shape of the distribution is not affected.
+- Not get affected by outliers because there is no predefined range of transformed features.
 
 ---
 
-#### Formulation
+Decimal scaling
 
-$$(\underline{w}, \underline{b})_k \leftarrow (\underline{w}, \underline{b})_{k-1} - \frac{\eta}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} \frac{\partial l_i(\underline{w}, \underline{b})}{\partial{(\underline{w}, \underline{b})}}.$$
-where a minibatch $\mathcal{B}$ sample with size $|\mathcal{B}|$. Here $\eta$ is a fixed positive value called the **learning rate**.
-
-- Initialize the values of the model parameters, typically at random, cold start.
-- Iteratively sample random minibatches from the training dataset, updating the model parameters in the direction of the negative gradient. 
+$$X_{new} = \frac{X}{{10}^k}$$
+where $k$ is smallest integer such that $max(|X_{new}|) \le 1$
 
 ---
 
-$$\begin{aligned} \underline{w}_k &\leftarrow \underline{w}_{k-1} -   \frac{\eta}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} \frac{\partial l_i(\underline{w}, \underline{b})}{\partial{(\underline{w})}} = \underline{w}_{k-1} - \frac{\eta}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} \underline{x_i} \left(\underline{w}^T\underline{x_i}+b-y_i\right),\\ 
-b_k &\leftarrow b_{k-1} - \frac{\eta}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} \frac{\partial l_i(\underline{w}, \underline{b})}{\partial{(\underline{b})}}  = b_{k-1} - \frac{\eta}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} \left(\underline{w}^T\underline{x_i}+b-y_i\right). \end{aligned}$$
+$L^k$ Norm Normalization
 
-- Model training for some predetermined number of iterations or until other stopping criteria is met.
-- The algorithm converges slowly towards the minimizers.
-- Even if the relationship between the response variable and explanatory variables is truly linear and noiseless, these parameters will not be the exact minimizers of the loss since they cannot achieve it precisely in a finite number of steps. 
-- Linear regression happens to be, luckily, a learning problem with only one minimum over the entire domain.
-
----
-
-#### Maximum Likelihood Estimation
-
-- Assume the noise is normally distributed as follows
-$$y_i = \underline{w}^T\underline{x_i}+b + \epsilon \text{ where } \epsilon \sim \mathcal{N}(0, \sigma^2).$$
-- Then likelihood function
-
-$$p(y_{i}|\underline{x_i})= \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left(-\frac{1}{2 \sigma^2} (y_i - \underline{w}^T\underline{x_i}-b)^2\right)$$
+$$
+X_{new} = \frac{X}{||X||_k}
+$$
+where $||X||_k=\sqrt{X_1^k+X_2^k+...+X_n^k}$.
 
 ---
 
-- Maximize the likelihood of the entire dataset:
-$$P(\underline{Y} \mid \mathbf{X}) = \prod_{i=1}^{n} p(y_{i}|\underline{x_i})$$
-- Same as minimize the negative log-likelihood:
+Power transformations
 
-$$-\log P(\underline{Y} \mid \mathbf{X}) = \sum_{i=1}^n \frac{1}{2} \log(2 \pi \sigma^2) + \frac{1}{2 \sigma^2} \left(y_i - \underline{w}^T\underline{x_i}-b\right)^2.$$
-- $\sigma$ is some fixed constant, then the first term is constant.
-- the second term is identical to the squared error loss.
+$$
+X^{(\lambda)}_{new} =
+\begin{cases}
+ \dfrac{X^\lambda - 1}{\lambda} & \text{if } \lambda \neq 0, \\
+ \ln X & \text{if } \lambda = 0,
+\end{cases}
+$$
 
 ---
 
-Minimizing the mean squared error is equivalent to the maximum likelihood estimation of a linear model under the assumption of additive Gaussian noise.
+### Bining for Numerical Data
 
+- Combine specific ranges to reduce level/numerical range.
+- Losing information.
+- May speed up the training process.
 
+---
 
+### Encoding for Categorical Data
 
+- One-hot encoding
+- Deep learning
+- Cartesian product of two or more features
 
+---
+
+### Other
+
+- Date and Time
+- Currency
+- Special symbols
 
 
 
