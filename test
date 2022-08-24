@@ -300,13 +300,11 @@ cor_matrix
 
 ---
 
-
 - Create the correlation heatmap with ggplot2
 
 ```{r}
 library(ggplot2)
 library(reshape2)
-
 # Get lower triangle of the correlation matrix
 get_lower_tri<-function(cormat){
   cormat[upper.tri(cormat)] <- NA
@@ -317,230 +315,300 @@ get_upper_tri <- function(cormat){
   cormat[lower.tri(cormat)]<- NA
   return(cormat)
   }
-  
+```
+
+---
+
+```{r}
 reorder_cormat <- function(cormat){
 # Use correlation between variables as distance
   dd <- as.dist((1-cormat)/2)
   hc <- hclust(dd)
   cormat <-cormat[hc$order, hc$order]
 }
+```
 
+---
+
+```{r}
 cor_matrix = round(cor_matrix,2)
 # Reorder the correlation matrix
 cormat <- reorder_cormat(cor_matrix)
 upper_tri <- get_upper_tri(cor_matrix)
 # Melt the correlation matrix
 melted_cormat <- melt(upper_tri, na.rm = TRUE)
+```
+
+---
+
+```{r}
 # Create a ggheatmap
 ggheatmap <- ggplot(melted_cormat, aes(Var2, Var1, fill = value))+
  geom_tile(color = "white")+
- scale_fill_gradient2(low = "blue", high = "red", mid = "white", 
-   midpoint = 0, limit = c(-1,1), space = "Lab", 
+ scale_fill_gradient2(low = "blue", high = "red", mid = "white",
+   midpoint = 0, limit = c(-1,1), space = "Lab",
     name="Pearson\nCorrelation") +
   theme_minimal()+ # minimal theme
- theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+ theme(axis.text.x = element_text(angle = 45, vjust = 1,
     size = 12, hjust = 1))+
  coord_fixed()
-# Print the heatmap
-print(ggheatmap)
-
-ggheatmap + 
-geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
-theme(
-  axis.title.x = element_blank(),
-  axis.title.y = element_blank(),
-  panel.grid.major = element_blank(),
-  panel.border = element_blank(),
-  panel.background = element_blank(),
-  axis.ticks = element_blank(),
-  legend.justification = c(1, 0),
-  legend.position = c(0.5, 0.7),
-  legend.direction = "horizontal")+
-  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
-                title.position = "top", title.hjust = 0.5))
-
 ```
 
+---
+
+```{r}
+# Print the heatmap
+print(ggheatmap)
+```
+
+---
+
+```{r}
+ggheatmap +
+geom_text(aes(Var2, Var1, label = value), color = "black", size = 4) +
+theme(axis.title.x = element_blank(), axis.title.y = element_blank(),
+  panel.grid.major = element_blank(), panel.border = element_blank(),
+  panel.background = element_blank(), axis.ticks = element_blank(),
+  legend.justification = c(1, 0), legend.position = c(0.5, 0.7),
+  legend.direction = "horizontal") +
+  guides(fill = guide_colorbar(barwidth = 7, barheight = 1,
+                title.position = "top", title.hjust = 0.5))
+```
+
+---
 
 - Visually inspecting the relationships between the numeric variables and the response variable.
 
 ***The best candidates found ways to examine the relationships between numeric variables and the response variable visually because that can yield further insights that the correlation statistic can't provide.***
 
+---
+
 ```{r}
 ggplot(data_all, aes(x = num_procs, y = days)) +
   geom_count(aes(color = ..n..))
+```
 
+---
+
+```{r}
 ggplot(data_all, aes(x = num_meds, y = days)) +
   geom_count(aes(color = ..n..))
+```
 
+---
+
+```{r}
 ggplot(data_all, aes(x = num_ip, y = days)) +
   geom_count(aes(color = ..n..))
+```
 
+---
+
+```{r}
 ggplot(data_all, aes(x = num_diags, y = days)) +
   geom_count(aes(color = ..n..))
 ```
 
-- Split histograms and boxplots of response by factor variables. 
+---
+
+- Split histograms and boxplots of response by factor variables.
 
 ```{r}
-
 library(gridExtra)
-
 # Explore response days vs. gender.
-
 # Split histogram
 p1 <- ggplot(data_all, aes(
   x = days,
   group = gender, fill = gender, y = ..density..
 )) +
-  geom_histogram(position = "dodge", binwidth = 1)  
-
+  geom_histogram(position = "dodge", binwidth = 1)
 # Boxplot
 p2 <- ggplot(data = data_all, aes(
   x = gender, y = days,
   fill = gender
 )) +
   geom_boxplot(alpha = 0.5) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))  
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
 
+---
+
+```{r}
 grid.arrange(p1, p2, ncol = 2)
+```
 
+---
+
+```{r}
 # Explore response days vs. age.
-
 # Split histogram
 p1 <- ggplot(data_all, aes(
   x = days,
   group = age, fill = age, y = ..density..
 )) +
-  geom_histogram(position = "dodge", binwidth = 1) 
-
+  geom_histogram(position = "dodge", binwidth = 1)
 # Boxplot
 p2 <- ggplot(data = data_all, aes(
   x = age, y = days,
   fill = age
 )) +
   geom_boxplot(alpha = 0.5) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
 
+---
+
+```{r}
 grid.arrange(p1, p2, ncol = 2)
+```
 
+---
 
+```{r}
 # Explore response days vs. race
-
 # Split histogram
 p1 <- ggplot(data_all, aes(
   x = days,
   group = race, fill = race, y = ..density..
 )) +
-  geom_histogram(position = "dodge", binwidth = 1) 
-
+  geom_histogram(position = "dodge", binwidth = 1)
 # Boxplot
 p2 <- ggplot(data = data_all, aes(
   x = race, y = days,
   fill = race
 )) +
   geom_boxplot(alpha = 0.5) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
 
+---
+
+```{r}
 grid.arrange(p1, p2, ncol = 2)
+```
 
+---
 
+```{r}
 # Explore response days vs. admit_type_id
-
 # Split histogram
 p1 <- ggplot(data_all, aes(
   x = days,
   group = admit_type_id, fill = admit_type_id, y = ..density..
 )) +
-  geom_histogram(position = "dodge", binwidth = 1) 
-
+  geom_histogram(position = "dodge", binwidth = 1)
 # Boxplot
 p2 <- ggplot(data = data_all, aes(
   x = admit_type_id, y = days,
   fill = admit_type_id
 )) +
   geom_boxplot(alpha = 0.5) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
 
+---
+
+```{r}
 grid.arrange(p1, p2, ncol = 2)
+```
 
+---
 
+```{r}
 # Explore response days vs. metformin
-
 # Split histogram
 p1 <- ggplot(data_all, aes(
   x = days,
   group = metformin, fill = metformin, y = ..density..
 )) +
-  geom_histogram(position = "dodge", binwidth = 1) 
-
+  geom_histogram(position = "dodge", binwidth = 1)
 # Boxplot
 p2 <- ggplot(data = data_all, aes(
   x = metformin, y = days,
   fill = metformin
 )) +
   geom_boxplot(alpha = 0.5) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
 
+---
+
+```{r}
 grid.arrange(p1, p2, ncol = 2)
+```
 
+---
 
+```{r}
 # Explore response days vs. insulin
-
 # Split histogram
 p1 <- ggplot(data_all, aes(
   x = days,
   group = insulin, fill = insulin, y = ..density..
 )) +
-  geom_histogram(position = "dodge", binwidth = 1) 
-
+  geom_histogram(position = "dodge", binwidth = 1)
 # Boxplot
 p2 <- ggplot(data = data_all, aes(
   x = insulin, y = days,
   fill = insulin
 )) +
   geom_boxplot(alpha = 0.5) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
 
+---
+
+```{r}
 grid.arrange(p1, p2, ncol = 2)
+```
 
+---
 
+```{r}
 # Explore response days vs. readmitted
-
 # Split histogram
 p1 <- ggplot(data_all, aes(
   x = days,
   group = readmitted, fill = readmitted, y = ..density..
 )) +
   geom_histogram(position = "dodge", binwidth = 1)
-
 # Boxplot
 p2 <- ggplot(data = data_all, aes(
   x = readmitted, y = days,
   fill = readmitted
 )) +
   geom_boxplot(alpha = 0.5) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) 
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
+```
 
+---
+
+```{r}
 grid.arrange(p1, p2, ncol = 2)
+```
 
+---
+
+```{r}
 # making the boxplot for insulin for the report
 ggplot(data = data_all, aes(
   x = insulin, y = days,
-  fill = insulin
-)) +
+  fill = insulin)) +
   geom_boxplot(alpha = 0.5) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
-
 ```
 
-- `insulin`, `age`, and `num_meds` appear to have strong relationships to the response variable. 
+---
+
+- `insulin`, `age`, and `num_meds` appear to have strong relationships to the response variable.
+
+---
 
 - The `insulin` variable indicates whether, upon admission, insulin was prescribed or there was a change in the dosage. About half of the records did not have insulin prescribed upon admission and these records were admitted on average over a day less than records where insulin was increased upon admission. The boxplots below show that the median and 3rd quartile number of days are also lower when insulin is not prescribed. Changes to insulin dosages also had higher mean days. I selected this variable because (1) each variable level has over 1000 records and a noticeable difference in mean days and (2) It makes intuitive sense that requiring medication or change to it upon arrival might lead to a need to monitor a patient over a period of time, increasing the length of stay.
 
+---
 
 ```{r, echo=FALSE}
-
 data_all %>%
     group_by(insulin) %>%
     summarise(
@@ -548,7 +616,6 @@ data_all %>%
       median = median(days),
       n = n()
     )
-
 # making the boxplot for insulin for the report
 ggplot(data = data_all, aes(
   x = insulin, y = days,
@@ -558,16 +625,18 @@ ggplot(data = data_all, aes(
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5))
 ```
 
+
+---
+
 - The `age` variable is a factor variable, and frequency counts can be seen in the bar chart and table below. Most of our data has ages between 50 and 90, with 70-80 containing the most data. If age were numeric, we would say it was skewed left. The table and box plots below show that, for the most part, as age increases, days increases. There is a sizeable difference (over 1.5 days) between mean days for the age bins with the highest mean days and the lowest mean days. I chose this variable because it makes sense that older patients tend to stay longer since they tend to be in poorer health, and the relationship appears to be strong.
 
+---
 
 ```{r, echo=FALSE}
-
 ggplot(data_all, aes(x = age)) +
     geom_bar() +
     labs(x = "age") +
     theme(axis.text.x = element_text(angle = 90, hjust = 1))
-
 
 data_all %>%
     group_by(age) %>%
@@ -576,10 +645,13 @@ data_all %>%
       median = median(days),
       n = n()
     )
-
 ```
 
+---
+
 - The `num_meds` variable takes on integer values from 1 to 67. The center of the distribution is around 15 to 16 based on the median/mean. From the bar chart below, we can see that the distribution is skewed right with 13 being the most frequent number of medications. The correlation between num_meds and days was 0.472, which was the strongest correlation among the numeric variables. The scatterplot, with point size/color based on thefrequency below, shows that as the number of medications increases, the days increases. Like the other variables selected, this relationship makes intuitive sense – patients taking many medications likely have more underlying conditions, have poorer overall health, and may require a longer hospital stay to address those concerns. I selected this variable because the relationship to the response variable was the strongest of the numeric variables and the narrative makes sense.
+
+---
 
 ```{r, echo=FALSE}
 
@@ -601,18 +673,25 @@ data_all %>%
 
 ```
 
+---
 
-### SOA TASK 3 - Consider two data issues 
+### SOA TASK 3 - Consider two data issues
 
 ***Most candidates successfully identified reasons for considering removing the race variable, but few candidates were able to discuss potential benefits of including the variable. Future candidates should consider the business context more thoroughly when discussing controversial variables. In this case, excluding the race variable could be unethical if it leads to worse care. Lower quality responses mentioned concerns about the race variable due to regulation or privacy laws with little or no explanation.***
 
-The race variable presents ethical concerns that should be weighed before using the variable. Historically, racial groups have been mistreated, and efforts to create racial equality continue today.
+---
 
-Hospital administrators intend to use information about important model factors to better manage patient needs. If race turns out to be an important factor, would they apply different treatment plans to different races? This could be seen as discriminatory, but it could also be the ethical choice if it leads to improved care for all races. Failing to take measures to close the gap in length of stay between races could also be seen as discriminatory, since staying at the hospital is expensive, and one race might generally be charged more than another.
+- The race variable presents ethical concerns that should be weighed before using the variable. Historically, racial groups have been mistreated, and efforts to create racial equality continue today.
 
-Whether or not the race variable is included in the model, users and other stakeholders should make sure races aren’t unfairly impacted by the model as it is applied.
+- Hospital administrators intend to use information about important model factors to better manage patient needs. If race turns out to be an important factor, would they apply different treatment plans to different races? This could be seen as discriminatory, but it could also be the ethical choice if it leads to improved care for all races. Failing to take measures to close the gap in length of stay between races could also be seen as discriminatory, since staying at the hospital is expensive, and one race might generally be charged more than another.
+
+- Whether or not the race variable is included in the model, users and other stakeholders should make sure races aren’t unfairly impacted by the model as it is applied.
+
+---
 
 ***Many candidates were unable to describe precisely the problems associated with including the number of laboratory procedures variable.***
+
+---
 
 The additional variable that indicates the number of laboratory procedures during the hospital stay should not be included in the model. Typically, variables collected after the time of model application should not be included in a model. Here are two reasons it shouldn’t be used:
 
@@ -620,61 +699,75 @@ The additional variable that indicates the number of laboratory procedures durin
 
 - Unless hospital administrators know how many laboratory procedures a patient is going to have in the future, they would not be able to use the information in any way. The model cannot be applied at the time of admission if all of the inputs are not known.
 
+
+---
+
 ### SOA TASK 3 - Write a data summary for your actuarial manager
 
 ***Most candidates performed well on this task. Lower performing responses often excluded a high- level description of the data source and did not include any visualizations.***
 
+---
+
 The initial data contained 10,000 records based on historical inpatient encounters for patients with diabetes from U.S. hospitals between 1999 and 2008. The dataset contained the following variables about the hospital stay, the patient, their recent treatments, and their treatment upon admission: days (the response variable), gender, age, race, weight, admit_type_id, metformin, insulin, readmitted, num_procs, num_meds, num_ip, num_diags. The distribution of the response variable, skewed to the right, is shown below.
 
+---
 
 ```{r, echo=FALSE}
 
 # plot the days distribution using a histogram
 ggplot(data_all, aes(x = days)) +
-  geom_histogram() + 
+  geom_histogram() +
   labs(title = "Response Variable - Days",
        x = "days")
-       
+
 ```
+
+---
 
 The following are specific issues I explored and adjustments I made.
 
 - Completeness and Reasonableness
   - When reviewing the completeness of the data, I considered the percentage of missing records for each variable and whether having missing values impacted the response variable. Three records were missing for gender and were removed. About 97% of the records were missing weight information, so that variable was removed. The race variable had 226 missing values, but the records did not appear to be missing at random, so I created a new race category called “Missing.”
-  
+
+---
+
 - Ethical Concerns
   - Including the race variable in the model could lead to discriminatory model applications, so we should consider whether to remove the variable from the final model. Before making decisions based on the final model application, we could use the race data to understand whether or not there are any unfair impacts created. We may also want to discuss the issue with legal experts and MACH.
 
+---
+
 - Relevance
  - Note that the data is limited to diabetes patients, which limits the applicability of this work. I explored the data to see if the variables were appropriate for the problem we were addressing. Descriptive statistics and visualizations were used to analyze the univariate distributions and bivariate (between the variable and response variable) distributions for each variable. Three variables were identified that were likely to predict our response variable, the number of days a patient was admitted to the hospital. Based on my analysis, changes to insulin prescriptions upon admission, higher patient age, and a higher num_meds – the number of distinct medications administered in the prior year – are expected to lead to longer hospital stays.
- 
+
 Additional data preparation steps included recoding variables as factors, combining factor levels, and reordering the factor levels.
 
 ---
 
-### Bivariate Graphs - Numerical vs Numerical and Categorical 
+## Bivariate Graphs - Numerical vs Numerical and Categorical
 
-#### Numerical vs Numerical
+---
+
+### Numerical vs Numerical
 
 The relationship between two numerical variables is typically displayed using scatterplots and line graphs.
 
-##### Scatterplot
+---
+
+#### Scatterplot
 
 The simplest display of two numerical variables is a scatterplot, with each variable represented on an axis. For example, we can plot days vs. num_meds.
 
+---
 
 ```{r}
-
-library(ggplot2)
-
 # simple scatterplot
-ggplot(data_all, 
-       aes(x = num_meds, 
+ggplot(data_all,
+       aes(x = num_meds,
            y = days)) +
   geom_point()
-
 ```
 
+---
 
 `geom_point` options can be used to change the
 
@@ -682,325 +775,284 @@ ggplot(data_all,
   - `size`   point size
   - `shape`   point shape
   - `alpha`   point transparency. Transparency ranges from 0 (transparent) to 1 (opaque), and is a useful parameter when points overlap.
-  
+
 The functions `scale_x_continuous` and `scale_y_continuous` control the scaling on x and y axes respectively.
 
 We can use these options and functions to create a more attractive scatterplot.
 
+---
 
 ```{r}
-
 # enhanced scatter plot
-ggplot(data_all, 
-       aes(x = num_meds, 
-           y = days)) +
-  geom_point(color="cornflowerblue", 
-             size = 2, 
-             alpha=.8) +
+ggplot(data_all, aes(x = num_meds, y = days)) +
+  geom_point(color="cornflowerblue", size = 2, alpha=.8) +
   scale_y_continuous(limits = c(0, 20)) +
-  scale_x_continuous(breaks = seq(0, 70, 10), 
-                     limits=c(0, 70)) + 
+  scale_x_continuous(breaks = seq(0, 70, 10), limits=c(0, 70)) +
   labs(x = "The number of distinct medications administered in the prior year",
        y = "The number of days a patient was admitted to the hospital",
-       title = "days vs. num_meds",
-       subtitle = "Response vs Explanatory")
-
+       title = "days vs. num_meds", subtitle = "Response vs Explanatory")
 ```
+
+
+---
 
 It is often useful to summarize the relationship displayed in the scatterplot, using the best fit line. Many types of lines are supported, including linear, polynomial, and nonparametric (loess). By default, 95% confidence limits for these lines are displayed.
 
+---
 
 ```{r}
-
 # scatterplot with linear fit line
-ggplot(data_all, 
-       aes(x = num_meds, 
-           y = days)) +
-  geom_point(color="cornflowerblue", 
-             size = 2, 
-             alpha=.8) +
+ggplot(data_all, aes(x = num_meds, y = days)) +
+  geom_point(color="cornflowerblue", size = 2, alpha=.8) +
   geom_smooth(method = "lm") +
   scale_y_continuous(limits = c(0, 15)) +
-  scale_x_continuous(breaks = seq(0, 70, 10), 
-                     limits=c(0, 70)) + 
+  scale_x_continuous(breaks = seq(0, 70, 10), limits=c(0, 70)) +
   labs(x = "The number of distinct medications administered in the prior year",
        y = "The number of days a patient was admitted to the hospital",
-       title = "days vs. num_meds",
-       subtitle = "Response vs Explanatory")
-
+       title = "days vs. num_meds", subtitle = "Response vs Explanatory")
 ```
 
-Clearly, days increases with num_meds However, there seems to be a dip at the right end. A straight line does not capture this non-linear effect. A line with a bend will fit better here. Typically either a quadratic (one bend), or cubic (two bends) line is used. It is rarely necessary to use a higher order( >3 ) polynomials. 
+
+---
+
+Clearly, days increases with num_meds However, there seems to be a dip at the right end. A straight line does not capture this non-linear effect. A line with a bend will fit better here. Typically either a quadratic (one bend), or cubic (two bends) line is used. It is rarely necessary to use a higher order( >3 ) polynomials.
 
 Applying a quadratic fit produces the following result.
 
-```{r}
+---
 
+```{r}
 # scatterplot with linear fit line
-ggplot(data_all, 
-       aes(x = num_meds, 
-           y = days)) +
-  geom_point(color="cornflowerblue", 
-             size = 2, 
-             alpha=.8) +
-  geom_smooth(method = "lm",
-              formula = y ~ poly(x, 2), 
-              color = "indianred3") +
+ggplot(data_all, aes(x = num_meds, y = days)) +
+  geom_point(color="cornflowerblue", size = 2, alpha=.8) +
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), color = "indianred3") +
   scale_y_continuous(limits = c(0, 15)) +
-  scale_x_continuous(breaks = seq(0, 70, 10), 
-                     limits=c(0, 70)) + 
+  scale_x_continuous(breaks = seq(0, 70, 10), limits=c(0, 70)) +
   labs(x = "The number of distinct medications administered in the prior year",
        y = "The number of days a patient was admitted to the hospital",
-       title = "days vs. num_meds",
-       subtitle = "Response vs Explanatory")
+       title = "days vs. num_meds", subtitle = "Response vs Explanatory")
 
 ```
+
+---
 
 Finally, a smoothed nonparametric fit line can often provide a good picture of the relationship. The default in ggplot2 is a `loess` line which stands for locally weighted scatterplot smoothing.
 
+---
 
 ```{r}
-
 # scatterplot with linear fit line
-ggplot(data_all, 
-       aes(x = num_meds, 
-           y = days)) +
-  geom_point(color="cornflowerblue", 
-             size = 2, 
-             alpha=.8) +
+ggplot(data_all, aes(x = num_meds, y = days)) +
+  geom_point(color="cornflowerblue", size = 2, alpha=.8) +
   geom_smooth(color = "indianred3") +
   scale_y_continuous(limits = c(0, 15)) +
-  scale_x_continuous(breaks = seq(0, 70, 10), 
-                     limits=c(0, 70)) + 
+  scale_x_continuous(breaks = seq(0, 70, 10), limits=c(0, 70)) +
   labs(x = "The number of distinct medications administered in the prior year",
        y = "The number of days a patient was admitted to the hospital",
-       title = "days vs. num_meds",
-       subtitle = "Response vs Explanatory")
-
+       title = "days vs. num_meds", subtitle = "Response vs Explanatory")
 ```
+
+---
 
 You can suppress the confidence bands by including the option `se = FALSE`.
 
+---
 
 ```{r}
-
 # scatterplot with linear fit line
-ggplot(data_all, 
-       aes(x = num_meds, 
-           y = days)) +
-  geom_point(color="cornflowerblue", 
-             size = 2, 
-             alpha=.8) +
-  geom_smooth(color = "indianred3",
-              size = 1.5) +
+ggplot(data_all, aes(x = num_meds, y = days)) +
+  geom_point(color="cornflowerblue", size = 2, alpha=.8) +
+  geom_smooth(color = "indianred3", size = 1.5) +
   scale_y_continuous(limits = c(0, 15)) +
-  scale_x_continuous(breaks = seq(0, 70, 10), 
-                     limits=c(0, 70)) + 
+  scale_x_continuous(breaks = seq(0, 70, 10), limits=c(0, 70)) +
   labs(x = "The number of distinct medications administered in the prior year",
        y = "The number of days a patient was admitted to the hospital",
-       title = "days vs. num_meds",
-       subtitle = "Response vs Explanatory") +
+       title = "days vs. num_meds", subtitle = "Response vs Explanatory") +
   theme_minimal()
 
 ```
 
-##### Line plot
+---
+
+#### Line plot
 
 When one of the two variables represents time, a line plot can be an effective method of displaying the relationship. For example, the code below displays the relationship between time (year) and life expectancy (lifeExp) in the United States between 1952 and 2007. The data comes from the `gapminder` dataset.
 
+---
+
 ```{r}
-
 data(gapminder, package="gapminder")
-
 # Select US cases
-library(dplyr)
-plotdata <- filter(gapminder, 
-                   country == "United States")
-
+plotdata <- filter(gapminder, country == "United States")
 # simple line plot
-ggplot(plotdata, 
-       aes(x = year, 
-           y = lifeExp)) +
-  geom_line() 
-
+ggplot(plotdata, aes(x = year, y = lifeExp)) +
+  geom_line()
 ```
+
+---
 
 It is hard to read individual values in the graph above. In the next plot, we’ll add points as well.
 
-```{r}
+---
 
+```{r}
 # line plot with points
 # and improved labeling
-ggplot(plotdata, 
-       aes(x = year, 
-           y = lifeExp)) +
-  geom_line(size = 1.5, 
-            color = "lightgrey") +
-  geom_point(size = 3, 
-             color = "steelblue") +
-  labs(y = "Life Expectancy (years)", 
-       x = "Year",
+ggplot(plotdata, aes(x = year, y = lifeExp)) +
+  geom_line(size = 1.5, color = "lightgrey") +
+  geom_point(size = 3, color = "steelblue") +
+  labs(y = "Life Expectancy (years)", x = "Year",
        title = "Life expectancy changes over time",
        subtitle = "United States (1952-2007)",
        caption = "Source: http://www.gapminder.org/data/")
-
 ```
 
-#### Numerical vs Categorical
+---
+
+### Numerical vs Categorical
 
 When plotting the relationship between a categorical variable and a quantitative variable, a large number of graph types are available. These include bar charts using summary statistics, grouped kernel density plots, side-by-side box plots, side-by-side violin plots, mean/sem plots.
 
+---
 
-##### Bar chart (on summary statistics)
+#### Bar chart (on summary statistics)
 
 Bar charts were used to display the number of cases by category for a single variable or for two variables. You can also use bar charts to display other summary statistics (e.g., means or medians) on a quantitative variable for each level of a categorical variable.
 
+---
 
 ```{r}
-
 # calculate mean days for each insulin
-library(dplyr)
 plotdata <- data_all %>%
   group_by(insulin) %>%
   summarize(mean_days = mean(days))
-
 # plot mean days
-ggplot(plotdata, 
-       aes(x = insulin, 
-           y = mean_days)) +
+ggplot(plotdata,
+       aes(x = insulin, y = mean_days)) +
   geom_bar(stat = "identity")
-
-
-
 ```
+
+---
 
 We can make it more attractive with some options.
 
-
 ```{r}
-
 # plot mean days
-ggplot(plotdata, 
-       aes(x = insulin, 
-           y = mean_days)) +
-  geom_bar(stat = "identity",
-           fill = "cornflowerblue") +
-  geom_text(aes(label = mean_days), 
-            vjust = -0.25) +
+ggplot(plotdata, aes(x = insulin, y = mean_days)) +
+  geom_bar(stat = "identity", fill = "cornflowerblue") +
+  geom_text(aes(label = mean_days), vjust = -0.25) +
   scale_y_continuous() +
-  labs(title = "mean_days vs. num_meds", 
+  labs(title = "mean_days vs. num_meds",
        subtitle = "Response vs Explanatory",
-       x = "",
-       y = "")
-
-
+       x = "", y = "")
 ```
+
+---
+
 
 One limitation of such plots is that they do not display the distribution of the data - only the summary statistic for each group. The plots below correct this limitation to some extent.
 
+---
 
-##### Grouped kernel density plots
+#### Grouped kernel density plots
 
 One can compare groups on a numeric variable by superimposing kernel density plots in a single graph.
 
-```{r}
+---
 
-# plot the distribution of days 
+```{r}
+# plot the distribution of days
 # by insulin using kernel density plots
-ggplot(data_all, 
-       aes(x = insulin, 
-           fill = insulin)) +
+ggplot(data_all, aes(x = insulin, fill = insulin)) +
   geom_density(alpha = 0.4) +
   labs(title = "days distribution by insulin")
-
 ```
 
-##### Box plots
+---
+
+#### Box plots
 
 A boxplot displays the 25th percentile, median, and 75th percentile of a distribution. The whiskers (vertical lines) capture roughly 99% of a normal distribution, and observations outside this range are plotted as points representing outliers (see the figure below).
 
-![](boxplot.png)
+---
+
+<img align="left" src="image/boxplot.png" width="500" height="500" />
+
+---
 
 Side-by-side box plots are very useful for comparing groups (i.e., the levels of a categorical variable) on a numerical variable.
 
-```{r}
+---
 
+```{r}
 # plot the distribution of days by insulin using boxplots
-ggplot(data_all, 
-       aes(x = insulin, 
-           y = days)) +
+ggplot(data_all, aes(x = insulin, y = days)) +
   geom_boxplot() +
   labs(title = "days distribution by insulin")
 
 ```
 
+---
 
 Notched boxplots provide an approximate method for visualizing whether groups differ. Although not a formal test, if the notches of two boxplots do not overlap, there is strong evidence (95% confidence) that the medians of the two groups differ.
 
-
+---
 
 ```{r}
-
 # plot the distribution of days by insulin using boxplots
-ggplot(data_all, 
-       aes(x = insulin, 
-           y = days)) +
-  geom_boxplot(notch = TRUE, 
-               fill = "cornflowerblue", 
-               alpha = .7) +
+ggplot(data_all, aes(x = insulin, y = days)) +
+  geom_boxplot(notch = TRUE, fill = "cornflowerblue", alpha = .7) +
   labs(title = "days distribution by insulin")
 
 ```
+
+---
 
 In the example above, all three groups appear to differ.
 
 One of the advantages of boxplots is that their widths are not usually meaningful. This allows you to compare the distribution of many groups in a single graph.
 
+---
 
-##### Violin plots
+#### Violin plots
 
 Violin plots are similar to kernel density plots, but are mirrored and rotated $90^o$.
 
+---
 
 ```{r}
-
 # plot the distribution of days by insulin using boxplots
-ggplot(data_all, 
-       aes(x = insulin, 
-           y = days)) +
-  geom_violin() +
-  labs(title = "days distribution by insulin")
-
+ggplot(data_all, aes(x = insulin, y = days)) + geom_violin() +
+labs(title = "days distribution by insulin")
 ```
+
+---
 
 A useful variation is to superimpose boxplots on violin plots.
 
 ```{r}
-
 # plot the distribution of days by insulin using boxplots
-ggplot(data_all, 
-       aes(x = insulin, 
-           y = days)) +
+ggplot(data_all, aes(x = insulin, y = days)) +
   geom_violin(fill = "cornflowerblue") +
-  geom_boxplot(width = .2, 
-               fill = "orange",
+  geom_boxplot(width = .2, fill = "orange",
                outlier.color = "orange",
-               outlier.size = 2) + 
+               outlier.size = 2) +
   labs(title = "days distribution by insulin")
 
 ```
 
+---
 
-##### Mean/SEM plots
+#### Mean/SEM plots
 
 A popular method for comparing groups on a numeric variable is the mean plot with error bars. Error bars can represent standard deviations, standard error of the mean, or confidence intervals. In this section, we’ll plot means and standard errors.
 
+---
 
 ```{r}
 # calculate means, standard deviations,
-# standard errors, and 95% confidence 
+# standard errors, and 95% confidence
 # intervals by insulin
-library(dplyr)
 plotdata <- data_all %>%
   group_by(insulin) %>%
   summarize(n = n(),
@@ -1008,118 +1060,86 @@ plotdata <- data_all %>%
          sd = sd(days),
          se = sd / sqrt(n),
          ci = qt(0.975, df = n - 1) * sd / sqrt(n))
-
-# plot the means and standard errors
-ggplot(plotdata, 
-       aes(x = insulin, 
-           y = mean, 
-           group = 1)) +
-  geom_point(size = 3) +
-  geom_line() +
-  geom_errorbar(aes(ymin = mean - se, 
-                    ymax = mean + se), 
-                width = .1)
-
-
 ```
+
+---
+
+```{r}
+# plot the means and standard errors
+ggplot(plotdata, aes(x = insulin, y = mean, group = 1)) +
+  geom_point(size = 3) + geom_line() +
+  geom_errorbar(aes(ymin = mean - se,
+                    ymax = mean + se), width = .1)
+```
+
+
+---
 
 Although we plotted error bars representing the standard error, we could have plotted standard deviations or 95% confidence intervals. Simply replace `se` with `sd` or `error` in the `aes` option.
 
+---
 
-##### Strip plots
+#### Strip plots
 
 The relationship between a grouping variable and a numeric variable can be displayed with a scatter plot. For example
 
+---
+
 ```{r}
-
-# plot the distribution of days 
+# plot the distribution of days
 # by insulin using strip plots
-ggplot(data_all, 
-       aes(y = days, 
-           x = insulin)) +
-  geom_point() + 
-  labs(title = "days distribution by insulin")
-
+ggplot(data_all, aes(y = days, x = insulin)) +
+  geom_point() + labs(title = "days distribution by insulin")
 ```
+
+---
 
 These one-dimensional scatterplots are called strip plots. Unfortunately, overprinting of points makes interpretation difficult. The relationship is easier to see if the points are jittered. Basically a small random number is added to each y-coordinate.
 
+---
 
 ```{r}
-
 # plot the distribution of days
 # by insulin using jittering
-ggplot(data_all, 
-       aes(y = days, 
-           x = insulin,
-           color = insulin)) +
-  geom_jitter(alpha = 0.7,
-              size = 1.5) + 
+ggplot(data_all, aes(y = days, x = insulin, color = insulin)) +
+  geom_jitter(alpha = 0.7, size = 1.5) +
   labs(title = "days distribution by insulin")
-
 ```
 
+---
 
 Combining jitter and boxplots
 
 It may be easier to visualize distributions if we add boxplots to the jitter plots.
 
+---
 
 ```{r}
-
-# plot the distribution of days 
+# plot the distribution of days
 # by insulin using jittering
-
-ggplot(data_all, 
-       aes(x = factor(insulin), 
-           y = days, 
-           color = insulin)) +
-  geom_boxplot(size=1,
-               outlier.shape = 1,
-               outlier.color = "black",
-               outlier.size  = 3) +
-  geom_jitter(alpha = 0.5, 
-              width=.2) + 
-  scale_y_continuous() +
-  labs(title = "days distribution by insulin", 
-       subtitle = "",
-       x = "",
-       y = "") +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  coord_flip()
-
+ggplot(data_all, aes(x = factor(insulin), y = days, color = insulin)) +
+  geom_boxplot(size=1, outlier.shape = 1, outlier.color = "black", outlier.size  = 3) +
+  geom_jitter(alpha = 0.5,  width=.2) + scale_y_continuous() +
+  labs(title = "days distribution by insulin", subtitle = "", x = "", y = "") +
+  theme_minimal() + theme(legend.position = "none") + coord_flip()
 ```
 
+---
 
-##### Beeswarm Plots
+#### Beeswarm Plots
 
 Beeswarm plots (also called violin scatter plots) are similar to jittered scatterplots, in that they display the distribution of a quantitative variable by plotting points in a way that reduces overlap. In addition, they also help display the density of the data at each point (in a manner that is similar to a violin plot).
 
+---
 
 ```{r}
-
-# plot the distribution of days 
+# plot the distribution of days
 # by insulin using beewarm-syle plots
 library(ggbeeswarm)
-
-ggplot(data_all, 
-       aes(x = factor(insulin), 
-           y = days, 
-           color = insulin)) +
-  geom_quasirandom(alpha = 0.7,
-                   size = 1.5) + 
-  scale_y_continuous() +
-  labs(title = "days distribution by insulin", 
-       subtitle = "",
-       x = "",
-       y = "") +
-  theme_minimal() +
-  theme(legend.position = "none")
-
+ggplot(data_all, aes(x = factor(insulin), y = days, color = insulin)) +
+  geom_quasirandom(alpha = 0.7, size = 1.5) + scale_y_continuous() +
+  labs(title = "days distribution by insulin", subtitle = "",
+       x = "", y = "") + theme_minimal() + theme(legend.position = "none")
 ```
-
-
-
 
 
