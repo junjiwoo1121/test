@@ -101,8 +101,6 @@ rm(vars)
 
 ### Linear Regression Model
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Linear regression is a simple approach to supervised learning. It assumes that response variable $Y$ is a linear combination of corresponding explanatory variable $X_1, \dots, X_p$.
   - Data set: $(X_i,Y_i)$, for $i=1,2,\ldots,n$
   - $(X_i,Y_i)$ are **independent** and **identical** copies of $(X,Y)$
@@ -112,8 +110,6 @@ rm(vars)
 ---
 
 ### Simple Linear Regression using a Single Predictor $X$
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - We assume there is a linear relationship between $X_i$ and $Y_i$:
 $$
@@ -133,8 +129,6 @@ where $\beta_0$ and $\beta_1$ are two unknown constants that represent the **int
 
 ### Simple Linear Regression Prediction
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Given some estimates $\hat \beta_0$ and $\hat \beta_1$ for the model coefficients, we predict future $Y$ using 
 $$
 \hat{y}_i=\hat\beta_0+ \hat\beta_1x_i
@@ -148,8 +142,6 @@ where $\hat{y}_i$ indicates a prediction of $Y$ on the basis of $X = x_i$. The h
 
 ### Estimation of the Parameters by Least Squares
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - **Residual**: $e_i = {y}_i - \hat{y}_i$
   - error
 - Method of Least squares: estimate parameters $\beta_0$ and $\beta_1$
@@ -161,8 +153,6 @@ $$RSS(\beta_0,\beta_1) = (y_1-(\beta_0+\beta_1x_1))^2 + (y_2-(\beta_0+\beta_1x_2
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Simply with fixed $\hat\beta_0$ and $\hat\beta_1$
 
 $$RSS(\hat\beta_0,\hat\beta_1) = \sum_{i=1}^{n} \left(y_i-\hat{y}_i \right)^2 = \sum_{i=1}^{n} \left(y_i-(\hat\beta_0+\hat\beta_1x_i) \right)^2$$
@@ -172,8 +162,6 @@ $$RSS(\hat\beta_0,\hat\beta_1) = \sum_{i=1}^{n} \left(y_i-\hat{y}_i \right)^2 = 
 $$\left(\hat{\beta}_0,\hat{\beta}_1 \right)=\arg \min_{\left( \beta_0,\beta_1\right)} RSS\left(\beta_0,\beta_1 \right).$$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - Solve the following equations and find out $\hat\beta_0$ and $\hat\beta_1$:
 
@@ -196,8 +184,6 @@ $$\left\{
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - The minimizing values can be shown to be
 $$
 \begin{eqnarray*}
@@ -212,16 +198,12 @@ where $\overline{y} = \frac{1}{n}\sum^{n}_{i=1} y_i$ and $\overline{x} = \frac{1
 
 ### Correlation and Simple Linear Regression
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Correlation analysis is a technique used to quantify the associations between two continuous variables.
   - We estimate a **sample correlation coefficient**, more specifically the **Pearson Product Moment correlation coefficient**. The sample correlation coefficient, denoted $r$.
 
 ---
 
 #### Pearson Correlation
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - The Pearson correlation has two assumptions:
   - The two variables are normally distributed. We can test this assumption using
@@ -240,8 +222,6 @@ plot(x,y)
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 ```{r}
 cor(x, y, method="pearson")
 rm(x, y)
@@ -249,21 +229,15 @@ rm(x, y)
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - $r$ ranges between -1 and +1 and quantifies the direction and strength of the linear association between the two variables. The correlation between two variables can be positive (i.e., higher levels of one variable are associated with higher levels of the other) or negative (i.e., higher levels of one variable are associated with lower levels of the other).
 - The sign of the correlation coefficient indicates the direction of the association. The magnitude of the correlation coefficient indicates the strength of the association.
 - A correlation close to zero suggests no linear association between two continuous variables.
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - There may be a non-linear association between two continuous variables, but the computation of a correlation coefficient does not detect this. Therefore, it is always important to evaluate the data carefully before computing a correlation coefficient. Graphical displays are handy for exploring associations between variables.
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - The formula for the sample correlation coefficient is:
 $$r = \frac{Cov(X,Y)}{\sqrt{s^2_Xs^2_Y}}$$
@@ -274,8 +248,6 @@ $$s^2_X= \frac{\sum_{i=1}^{n}(x_i-\overline{x})^2}{n-1} \quad and \quad s^2_Y= \
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Regression analysis is a related technique to assess the relationship between a response variable and one or more explanatory variables (risk factors).
 $$\begin{eqnarray*}
   \beta_1 &=& \frac{ \sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) }{\sum_{i=1}^{n}(x_i-\overline{x})^2 }\\
@@ -285,8 +257,6 @@ $$\begin{eqnarray*}
 \end{eqnarray*}$$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 beta1 <- cor(data_all$num_meds, 
@@ -301,15 +271,11 @@ slm
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 ```{r}
 cor(data_all$num_meds, data_all$days, method="pearson")
 ```
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 If $r$, the relationship, is statistically significantly different from $0$
  - $H_0$: There is no correlation between the two variables: $r = 0$
@@ -321,15 +287,11 @@ cor.test(data_all$num_meds, data_all$days, method="pearson")
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 When testing the null hypothesis that there is no correlation between `num_meds` and `days`, we reject the null hypothesis (r = 0.4722805, t = 53.567, with 9995 degrees of freedom, and a p-value < 2.2e-16). As `num_meds` increases so does `days`. The 95% confidence interval for the correlation between `num_meds` and `days` is (0.4569076, 0.4873714). Note that this 95% confidence interval does not contain 0, which is consistent with our decision to reject the null hypothesis.
 
 ---
 
 #### Spearman's Rank Correlation
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 Spearman's rank correlation is a nonparametric measure of the correlation that uses the rank of observations in its calculation, rather than the original numeric values. It measures the monotonic relationship between two variables X and Y. That is, 
 - if Y tends to increase as X increases, the Spearman correlation coefficient is positive. 
@@ -338,8 +300,6 @@ Spearman's rank correlation is a nonparametric measure of the correlation that u
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - The Spearman correlation measurement makes no assumptions about the distribution of the data.
 
 - The formula for Spearman's correlation $\rho_s$ is
@@ -347,8 +307,6 @@ $$\rho_s = 1 - \frac{6\sum_{i=1}^nd_i^2}{n(n^2-1)}$$
 where $d_i$ is the difference in the ranked observations from each group, $(x_i-y_i)$, and $n$ is the sample size.
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 x <- seq(-10,10, 1)
@@ -359,8 +317,6 @@ rm(x, y)
 ```
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 cor(data_all$num_meds, data_all$days, method="spearman")
@@ -377,19 +333,14 @@ Thus we reject the null hypothesis that there is no (Spearman) correlation betwe
 
 ### Confidence Intervals for Coefficient Estimates
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - The standard error of an estimator reflects how it varies under repeated sampling. We have
 $$SE(\hat\beta_1)^2 = \frac{\sigma^2}{\sum_{i=1}^{n}(x_i-\overline{x})^2}$$
 
 $$SE(\hat\beta_0)^2 = \sigma^2 ( \frac{1}{n}+\frac{\overline{x}^2}{\sum_{i=1}^{n}(x_i-\overline{x})^2})$$
 where $\sigma^2 = Var(\epsilon)$
 
-Why?
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - The standard error becomes smaller if $n$ becomes larger.
   - More data leads to more accuracy.
@@ -399,8 +350,6 @@ Why?
   - Smaller spread of the $y$ values leads to higher accuracy of the point estimates $\hat{\beta}_0$ and $\hat{\beta}_1$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - These standard errors can be used to compute **confidence intervals**. A 95% confidence interval is defined as a range of values such that with 95% probability, the range will contain the true unknown value of the parameter. It has the form
 
@@ -418,8 +367,6 @@ confint(slm)
 
 ### Hypothesis Testing
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Standard errors can also be used to perform hypothesis tests on the coefficients. The most common hypothesis test involves testing the null hypothesis of
   - $H_0$: There is no relationship between X and Y
   - $H_a$: There is some relationship between X and Y 
@@ -429,8 +376,6 @@ confint(slm)
 - since if $\beta_1=0$ then the model reduces to $Y = \beta_0 + \epsilon$, and X is not associated with Y.
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - To test the null hypothesis, we compute a **t-statistic**, given by
 
@@ -448,8 +393,6 @@ $$\mathbb{P}\left[T_{n-2}\leq  t_{n-2,1-\frac{\alpha}{2}}\right]=1-\frac{\alpha}
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Since the distribution of $T_{n-2}$ is symmetric around zero:
 
 $$\mathbb{P}\left[T_{n-2}>  |t_{n-2,1-\frac{\alpha}{2}}|\right]=\alpha$$
@@ -464,14 +407,10 @@ $$t\left( \hat{\beta}_1\right)< |t_{n-2,1-\frac{\alpha}{2}}|$$
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Conclusion
 $$\text{reject the null hypothesis if }$$
 $$t\left( \hat{\beta}_1\right)>|t_{n-2,1-\frac{\alpha}{2}}|$$
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - $p$-value:
 
@@ -479,7 +418,7 @@ $$\mathbb{P}\left[T_{n-2}> |t\left(\hat{\beta_1} \right)| \right]=p$$
 
 - 
   - If $p$ is large, then the probability that we observe $t\left(\hat{\beta_1}\right)$ is likely
-  - If $p$ is small (e.g. 1 %), then it is very unlikely that $t\left(\hat{\beta_1}\right)$ comes from the distribution $T_{n-2}$
+  - If $p$ is small (e.g.\ 1\%), then it is very unlikely that $t\left(\hat{\beta_1}\right)$ comes from the distribution $T_{n-2}$
   - Calculate the $p$-value:
 
 $$\begin{eqnarray*}
@@ -488,8 +427,6 @@ $$\begin{eqnarray*}
 \end{eqnarray*}$$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - Assume: $\beta_1\neq 0$ and we hope: $\hat{\beta}_1\approx \beta_1$. We have 
 
@@ -500,8 +437,6 @@ $$\frac{\hat{\beta}_1-\beta_1}{se\left( \hat{\beta}_1\right)}=T_{n-2}$$
 $$\mathbb{P}\left[ -t_{n-2,1-\frac{\alpha}{2}}\leq \frac{\hat{\beta}_1-\beta_1}{se\left( \hat{\beta}_1\right)} \leq t_{n-2,1-\frac{\alpha}{2}} \right]=1-\alpha$$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - Confidence interval for $\beta_1$ with confidence level $1-\alpha$:
 
@@ -516,8 +451,6 @@ $$\begin{eqnarray*}
 
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - $p$-values
 
@@ -534,8 +467,6 @@ $$\begin{eqnarray*}
 \end{eqnarray*}$$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - Using statistical software, it is easy to compute the probability of observing any value equal to |t| or larger. We call this probability the p-value.
 
@@ -555,15 +486,11 @@ ggplot(data_all, aes(x=num_meds, y=days)) +
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 ```{r}
 predict(slm,data.frame(num_meds=c(0,20,40,60)),interval="confidence")
 ```
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 data_all %>% filter(num_meds == 0) %>% 
@@ -578,8 +505,6 @@ data_all %>% filter(num_meds == 60) %>%
 
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - Observation: The predicted values $\hat{y}_i$ do not exactly match the observed values $y_i$
 - Explanation: The prediction $\hat{y}_i$ approximates the systematic part of the regression model:
@@ -596,8 +521,6 @@ $$
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - The **total sum of squares (TSS)**. We do not use $X$ to predict the response $Y$. Best estimator: $\overline{y}$ then
 $$TSS=\sum_{i=1}^{n}\left(y_i-{\color{red}{\overline{y}}} \right)^2.$$
 
@@ -610,8 +533,6 @@ $$TSS=\sum_{i=1}^{n}\left(y_i-{\color{red}{\overline{y}}} \right)^2.$$
     - large deviations can be expected when using  $\overline{y}$ 
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - The **residual sum of squares (RSS)**
 
@@ -627,8 +548,6 @@ $$\left(y_i-\overline{y}\right)= \left(y_i-\hat{y}_i \right) +\left( \hat{y}_i-\
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Then
 
 $$\sum_{i=1}^{n}\left(y_i-\overline{y}\right)^2= \sum_{i=1}^{n}\left(y_i-\hat{y}_i \right)^2
@@ -639,8 +558,6 @@ $$\sum_{i=1}^{n}\left(y_i-\overline{y}\right)^2= \sum_{i=1}^{n}\left(y_i-\hat{y}
 $$\sum_{i=1}^{n}\left(y_i-\hat{y}_i \right)\left( \hat{y}_i-\overline{y}\right)=0$$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - We then find the following relation between the sum of squares:
 
@@ -656,8 +573,6 @@ $$\underbrace{\sum_{i=1}^{n}\left(y_i-\overline{y}\right)^2}_{TSS}= \underbrace{
 
 ### Correlation Coefficient $r$ and Determination Coefficient $R^2$
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - **R-squared** or fraction of variance explained is
 
 $$
@@ -669,11 +584,8 @@ $$
   - The variability around the regression line is small.
 - It can be shown that in this simple linear regression setting that $R^2 = r^2$, where $r$ is the correlation between X and Y. 
 
-Why?
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 anova(slm)
@@ -688,15 +600,11 @@ R_2
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 ```{r}
 summary(slm)
 ```
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 r = cor(data_all$num_meds, data_all$days, method="pearson")
@@ -709,8 +617,6 @@ r^2
 
 ### Prediction Interval and Confidence Interval
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Prediction interval with confidence level $(1-\alpha)$
 
 $$\left[\hat{y}-t_{n-2,1-\frac{\alpha}{2}}se\left(Y-\hat{Y}\right),
@@ -719,11 +625,7 @@ where $\hat{y}=\hat{\beta}_0 + \hat{\beta}_1x$
 $$se\left(Y-\hat{Y} \right)=s\sqrt{1+\frac{1}{n}+\frac{(x-\overline{x})^2}{s^2_x(n-1)}}$$
 (we replace the unknown $\sigma$ by the known $s$)
 
-Why?
-
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - 
   - Interval for the real response $Y$
@@ -741,8 +643,6 @@ $$se\left(\hat{Y} \right)=s\sqrt{\frac{1}{n}+\frac{(x-\overline{x})^2}{s^2_x(n-1
 
 ### Model Diagnostic
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Investigate if the assumptions of the model are met by the data
   - Lack of independence:
       - The response variables $Y_1,Y_2,\ldots,Y_n$ have to be independent copies of $Y$.
@@ -756,16 +656,9 @@ $$se\left(\hat{Y} \right)=s\sqrt{\frac{1}{n}+\frac{(x-\overline{x})^2}{s^2_x(n-1
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Non-normal distribution:
       - Normality of the error terms is used to construct confidence intervals
       - The residuals are drawn from a normal distribution
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - Unusual points:
       - Individual observations can have a big impact on the estimation of the model
       - The results (prediction/inference) can be sensitive to single observations
@@ -780,17 +673,13 @@ $$se\left(\hat{Y} \right)=s\sqrt{\frac{1}{n}+\frac{(x-\overline{x})^2}{s^2_x(n-1
 
 ### Outliers and High-leverage points: Example
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - The data set:
   - 19 basis points
   - outlier: $A$
   - high leverage point $C$
-  - outlier & high leverage point: $B$
+  - outlier \& high leverage point: $B$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 #outliers and high leverage points
@@ -810,7 +699,6 @@ y=c(y1,Ay,By,Cy)
 
 ---
 
-
 ```{r}
 plot(c(Ax,Bx,Cx), c(Ay,By,Cy), 
      xlim=c(0,20), ylim=c(0,20), 
@@ -822,8 +710,6 @@ points(x1,y1)
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 - We apply linear regression model in 3 different situations:
   - only the 19 basis points
   - the 19 basis points + the outlier $A$
@@ -831,8 +717,6 @@ points(x1,y1)
   - the 19 basis points + the high leverage point $C$
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 # Least squares estimate for the whole data set
@@ -842,8 +726,6 @@ summary(Outliers.full.lm)
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 ```{r}
 # Least squares with 19 basis points
 Outliers.basis.lm=lm(y1~x1)
@@ -851,8 +733,6 @@ summary(Outliers.basis.lm)
 ```
 
 ---
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 ```{r}
 # Least squares wity basis points + A 
@@ -862,8 +742,6 @@ summary(Outliers.A.lm)
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 ```{r}
 # Least squares with basis points + B 
 Outliers.B.lm=lm(c(y1,By)~c(x1,Bx))
@@ -872,8 +750,6 @@ summary(Outliers.B.lm)
 
 ---
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
 ```{r}
 # Least squares wity basis points + C 
 Outliers.C.lm=lm(c(y1,Cy)~c(x1,Cx))
@@ -881,7 +757,6 @@ summary(Outliers.C.lm)
 ```
 
 ---
-
 
 ```{r}
 # plot the results 
@@ -901,8 +776,6 @@ legend("bottomright", c("19 basis points", " with A", "with B", "with C"),
 ---
 
 ### Residual Analysis
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
 - The **residual standard error**
 
