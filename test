@@ -1,924 +1,812 @@
----
-title: "Predictive Analytics"
-subtitle: "Linear Model"  
-author: "Zhiyu (Frank) Quan"
-institute: "University of Illinois Urbana-Champaign"
-#date: "2022/04/01 (updated: `r Sys.Date()`)"
-output:
-  xaringan::moon_reader:
-    css: xaringan-themer.css
-    nature:
-      slideNumberFormat: "%current%"
-      highlightStyle: github
-      highlightLines: true
-      ratio: 16:9
-      countIncrementalSlides: true
----
+% PTtemplate2017.tex = name of this file.
+% See end of the file for its history.
+%
+%
+% IMPORTANT: READ THE COMMENTS IN THIS FILE; THEY INCLUDE INSTRUCTIONS
+% THAT *MUST* BE FOLLOWED WHEN PREPARING YOUR FILE FOR THE DEPARTMENT.
+%
+%
+% FILE NAMING: each user of this template should customize the
+% filename in a uniform manner, as follows: A candidate whose surname
+% is "Smith" should name the file "PTsmith.tex".
+%
+%
+% This template is for use by faculty in the UIUC Mathematics
+% Department in the promotion process, including 3rd year letters, etc.
+% For the eventual promotion evaluation, it is important that CV and
+% publication list materials be presented in a consistent manner,
+% following the specifications of the Provost's "Communication #9"
+% rigorously.  In order to maintain consistency of presentation
+% throughout the process, this template should be used at every stage.
+%
+%
+% INSTRUCTIONS:
+%
+% Most things are self-explanatory.  The template takes care of
+% formatting matters, so DO NOT use commands that affect spacing,
+% font size, page size, etc. Avoid the use of custom macros.  Consult
+% the PT committee chair or department chair if you need to deviate
+% from any instructions.
+% Refer to the Provost's "Communication #9" for additional
+% instructions and guidelines. This template is derived from
+% communication #9, especially from the outline of a promotion
+% document and the instructions for its use.
+% It is important that you become familiar with communication #9.
+% Note that all items in a given subsection need to be arranged in
+% chronological (NOT reverse chronological) order.
+% In each subsection, pay close attention to the comments located
+% there. These explain many small matters of detail which must be
+% followed.
+%
+%
+% The LaTeX file begins here:
 
-```{r setup, include=FALSE}
-options(htmltools.dir.version = FALSE)
-knitr::opts_chunk$set(
-  fig.width=9, fig.height=3.5, fig.retina=3,
-  out.width = "100%",
-  cache = FALSE,
-  echo = TRUE,
-  message = FALSE, 
-  warning = FALSE,
-  hiline = TRUE
-)
-```
+\documentclass[11pt]{article}
+\usepackage{url,amsmath, amssymb}
+\usepackage{graphicx} % this is used to include the scanned teaching reports
 
-```{r xaringan-themer, include=FALSE, warning=FALSE}
-library(xaringanthemer)
-style_duo_accent(
-  primary_color = "#13294B",
-  secondary_color = "#DD3403",
-  inverse_header_color = "#00000",
-  text_font_size = "27px",
-)
+%%%MODIFIED FOR 1-INCH MARGINS 10-5-04 AJ Hildebrand
+\addtolength{\oddsidemargin}{-0.7in}
+\addtolength{\textheight}{0.9in}
+\addtolength{\textwidth}{1.4in}
+\addtolength{\voffset}{-0.7in}
 
-```
+\begin{document}
 
+\centerline{$\underline{\textbf{\Large Zhiyu Quan}}$}
 
+% ENTER CANDIDATE'S FULL NAME IN THE LINE ABOVE, IN PLACE OF "John Q.~Smith".
+% THIS LINE GETS OMITTED IN THE EVENTUAL PROMOTION DOCUMENT, REPLACED
+% BY THE OFFICIAL COVER PAGE (AS SPECIFIED IN COMMUNICATION #9).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% I: Personal History
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-```{r, include=FALSE}
+\bigskip
 
-RNGkind(sample.kind = "Rounding") # Uncomment if running R 3.6.x or later
+\section*{1.\enspace Personal History and Professional Experience}
 
-# Load packages and data
+% NOTE: In each subsection, list items in chronological order from past
+% to present. Put a period at the end of each item.  Give dates with
+% commas, as in "April, 2006."  In these subsections, use the "itemize"
+% environment to avoid numbering the items, yet to set them off with a
+% bullet.
 
-# Load packages
-library(plyr)
-library(dplyr)
-library(ggplot2)
+% Uniformity of presentation is important to the department when
+% several dossiers are being sent up.  Keep the subsection headings
+% exactly the same as given here.  If you have nothing to enter in a
+% given subsection, replace the "itemize" environment by the following:
+%
+%             \hspace*{1.0cm} None.
+%
 
-# Load data
-data_all <- read.csv(file = "June 16 data.csv")
-
-data_all$admit_type_id <- as.factor(data_all$admit_type_id)
-
-cat_vars <- c("gender", "age", "race", 
-              "weight", "admit_type_id", 
-              "metformin", "insulin", "readmitted")
-
-num_vars <- c("num_procs", "num_meds", "num_ip", 
-              "num_diags")
-
-data_all <- subset(data_all, gender != "Unknown/Invalid")
-
-data_all$gender <- as.factor(data_all$gender)
-
-data_all$race <- as.factor(data_all$race)
-var.levels <- levels(data_all$race) 
-var.levels
-data_all$race <- mapvalues(
-  data_all$race, var.levels,
-  c("Missing","AfricanAmerican", "Other", "Caucasian", "Other", "Other")
-)
-rm(var.levels)
-
-data_all$weight <- NULL
-
-cat_vars = cat_vars[!cat_vars %in% c("weight")]
-
-data_all = data_all %>% mutate_if(is.character, as.factor)
-
-vars <- c("gender", "age", "race", 
-          "metformin", "insulin", 
-          "readmitted", "admit_type_id") 
-for (i in vars) {
-  table <- as.data.frame(table(data_all[, i]))
-  max <- which.max(table[, 2])
-  level.name <- as.character(table[max, 1])
-  data_all[, i] <- relevel(data_all[, i], ref = level.name)
-}
-rm(vars)
-
-```
-
-
-
-### Linear Regression Model
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Linear regression is a simple approach to supervised learning. It assumes that response variable $Y$ is a linear combination of corresponding explanatory variable $X_1, \dots, X_p$.
-  - Data set: $(X_i,Y_i)$, for $i=1,2,\ldots,n$
-  - $(X_i,Y_i)$ are **independent** and **identical** copies of $(X,Y)$
-- True regression functions are never linear!
-- Although it may seem overly simplistic, linear regression is extremely useful both conceptually and practically.
-
----
-
-### Simple Linear Regression using a Single Predictor $X$
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- We assume there is a linear relationship between $X_i$ and $Y_i$:
-$$
-Y_i=\beta_0+\beta_1X_i+\epsilon_i
-$$
-where $\beta_0$ and $\beta_1$ are two unknown constants that represent the **intercept** and **slope**, also known as **coefficients** or **parameters**, and $\epsilon_i$ is the **error term**.
-- $\epsilon_i$ are i.i.d. random variables
-  - $\mathbb{E}[\epsilon_i]=0$ and $\text{Var}[\epsilon_i]=\sigma^2.$
-    - homoscedasticity: the variance is independent of $i$
-  - Convenient assumption: $\epsilon_i\overset{d}{=}\mathcal{N}\left(0,\sigma^2 \right)$
-- Available Data: $\mathcal{D}=\left\{(x_i,y_i)|i=1,2,\ldots,n\right\}.$
-  - $y_i$ is a realization (or observation) of the response variable $Y_i$
-  - $x_i$ is the observed value of the explanatory variable $X_i$.
-
----
-
-
-### Simple Linear Regression Prediction
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Given some estimates $\hat \beta_0$ and $\hat \beta_1$ for the model coefficients, we predict future $Y$ using 
-$$
-\hat{y}_i=\hat\beta_0+ \hat\beta_1x_i
-$$
-where $\hat{y}_i$ indicates a prediction of $Y$ on the basis of $X = x_i$. The hat symbol denotes an estimated value.
-- Inference: 
-  - If $x$ increases to $x+\Delta_x$, then the effect on $y$ is $\Delta_y=\hat{\beta}_1\Delta_x$
-- Calibrating/estimating the model = Approximating $\hat \beta_0$ and $\hat \beta_1$.
-
----
-
-### Estimation of the Parameters by Least Squares
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- **Residual**: $e_i = {y}_i - \hat{y}_i$
-  - error
-- Method of Least squares: estimate parameters $\beta_0$ and $\beta_1$
-  - by minimizing the distance between the observations $y_i$ and the predictions $\hat{y}_i$
-  - using the sum of squares
-- We define the **residual sum of squares** ( $RSS(\beta_0,\beta_1)$ ) as $RSS(\beta_0,\beta_1) = e_1^2+e_2^2+ \dots + e_n^2$ or equivalently as 
-
-$$RSS(\beta_0,\beta_1) = (y_1-(\beta_0+\beta_1x_1))^2 + (y_2-(\beta_0+\beta_1x_2))^2 + \\ \dots + (y_n-(\beta_0+\beta_1x_n))^2$$
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Simply with fixed $\hat\beta_0$ and $\hat\beta_1$
-
-$$RSS(\hat\beta_0,\hat\beta_1) = \sum_{i=1}^{n} \left(y_i-\hat{y}_i \right)^2 = \sum_{i=1}^{n} \left(y_i-(\hat\beta_0+\hat\beta_1x_i) \right)^2$$
-
-- The least squares approach finds $\hat\beta_0$ and $\hat\beta_1$ to minimize the $RSS(\beta_0,\beta_1)$, i.e.:
-
-$$\left(\hat{\beta}_0,\hat{\beta}_1 \right)=\arg \min_{\left( \beta_0,\beta_1\right)} RSS\left(\beta_0,\beta_1 \right).$$
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Solve the following equations and find out $\hat\beta_0$ and $\hat\beta_1$:
-
-$$\left\{
-      \begin{array}{l}
-        \frac{\partial RSS\left(\beta_0,\beta_1 \right)}{\partial \beta_0}=0, \\
-        \frac{\partial RSS\left(\beta_0,\beta_1 \right)}{\partial \beta_1}=0.
-      \end{array}
-    \right.$$
-
-- And verify the Multivariable Second Derivative Test (Second Partial Derivative Test)
+%
+% From Communication Nr. 9: ``An activity may be listed only once in
+% the dossier. If there is a question about where an activity should
+% be placed, please consult the College for guidance.'' 
   
-$$\left\{
-      \begin{array}{l}
-        \frac{\partial^2 RSS\left(\beta_0,\beta_1 \right)}{\partial \beta_0^2}> 0, \\
-        \frac{\partial^2 RSS\left(\beta_0,\beta_1 \right)}{\partial \beta_1^2}> 0.\\
- \frac{\partial^2 RSS\left(\beta_0,\beta_1 \right)}{\partial \beta_0^2} \frac{\partial^2 RSS\left(\beta_0,\beta_1 \right)}{\partial \beta_1^2}-\left( \frac{\partial^2 RSS\left(\beta_0,\beta_1 \right)}{\partial \beta_0\beta_1} \right)^2> 0.
-      \end{array}
-    \right.$$
+\subsection*{A.\enspace Educational Background}
+
+% For each degree, provide name of institution; degree, field of study;
+% date of degree.
+
+\begin{itemize}
+\item Xiamen University; B.S., Mathematics and Applied Mathematics; July, 2012.
+\item Michigan State University; M.S., Applied Statistics; May, 2014.
+\item University of Connecticut; Ph.D., Mathematics with Thesis in Actuarial Science; December, 2019.
+\end{itemize}
+
+\subsection*{B.\enspace List of Academic Positions since Final Degree}
+
+% For each regular position, list inclusive dates, title, and location.
+
+\begin{itemize}
+\item August, 2020 to present, Assistant Professor, Department of Mathematics.
+\item May, 2021 to present, Affiliate Assistant Professor, Department of Statistics.
+\item June, 2021 to present, Affiliate Assistant Professor, National Center for Supercomputing Applications.
+\end{itemize}
+
+\subsection*{C.\enspace Other Professional Employment}
+
+% This is the place to put visiting appointments, etc.
+
+\hspace*{1.0cm} None.
+
+\subsection*{D.\enspace Honors, Recognition and Outstanding
+  Achievements}
+
+% Examples: Sloan dissertation graduate fellowships, thesis prizes,
+% NSF postdoctoral appointments, paper prizes, featured reviews in
+% Math Reviews, etc
+%
+
+\begin{itemize}
+\item Doctoral Student Travel Award, University of Connecticut.
+\item Doctoral Dissertation Fellowship, University of Connecticut.
+\item 2019 ARC Presentation Prizes - Honorable Mention, Society of Actuaries.
+\item Arnold O. Beckman Research Award
+\end{itemize}
+
+
+\subsection*{E.\enspace Invited Lectures and Invited Conference Presentations}
+
+% For candidates for promotion to Professor, a full (career) list of
+% events may be provided or, in the interest of brevity, a list of only
+% those events since the last promotion may be provided.
+%
+% If you provide the list only since last promotion, then change the
+% title of the subsection to 
+%
+% \subsection*{E.\enspace Invited Lectures and Invited Conference
+% Presentations since Last Promotion}
+% 
+% Do not include presentations at UIUC.  
+%
+
+\begin{itemize}
+\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, McGill Seminar Series in Statistics, Department of Mathematics and Statistics at the McGill University, Montréal, Canada, 08 October 2021.
+\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, Lecture of Statistics, Department of Statistics at the Renmin University, Beijing, China, 13 October 2021.
+\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, AMS AFM Seminar Series, Department of Actuarial Mathematics and Statistics at the Heriot-Watt University, Edinburgh, United Kingdom, 02 February 2022.
+\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the 35th New England Statistics Symposium (NESS): Statistics, the Heart of Data Science, Department of Statistics at the University of Connecticut, Storrs, USA, 22-23 May 2022.
+\item Data Science for Insurance Analytics, The UR International Summer School, Facultad de Economia at the Universidad del Rosario (Del Rosario University), Bogota, Colombia, 20 June - 06 July 2022.
+\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the Fifth ICSA-Canada Chapter Symposium, International Chinese Statistical Association, Banff, Canada, 08-10 July 2022.
+\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the Joint Statistical Meetings (JSM) 2022, American Statistical Association, Washington DC, USA, 06-11 August 2022.
+\end{itemize}
+
+\subsection*{F.\enspace Offices Held in Professional Societies}
+
+\hspace*{1.0cm} None.
+
+\subsection*{G.\enspace Editorships of Journals or Other Learned
+  Publications}
+
+\hspace*{1.0cm} None.
+
+\subsection*{H.\enspace Grants Received Since Last Promotion at UIUC}
+
+% List PI first with "PI" label, any co-PI's, granting agency,
+% dates of grant, and dollar amount.  For a large multi-person grant
+% indicate the support it provides to the person profiled here.
+%
+% Do not list U of I Research Board grants
+
+\begin{itemize}
+\item Committee on Knowledge Extension Research Travel Grants, PI: Zhiyu Quan, Society of Actuaries, August, 2018, \$1000.
+\item Committee on Knowledge Extension Research Travel Grants, PI: Zhiyu Quan, Society of Actuaries, August, 2019, \$1000.
+\item InsurTech Research Grant, PI: Zhiyu Quan, Carpe Data, September, 2020, \$5000.
+\item Centers of Actuarial Excellence, PI: Zhiyu Quan with Runhuan Feng (PI), Jay Kesan (PI), Wing Fung Chong (PI) and Daniel Linders (PI), Society of Actuaries, June, 2021, \$10000.
+\item Summer InsurTech Research Grant, PI: Zhiyu Quan, Carpe Data, July, 2021, \$5000.
+\item Azure Compute Credits, PI: Zhiyu Quan, Microsoft, September, 2021, \$5000.
+\item Cyber Research Grant, PI: Zhiyu Quan with Runhuan Feng (PI), AXIS Capital, January, 2022, \$20000.
+\item SOA Research Institute \& General Insurance Research, PI: Zhiyu Quan with Runhuan Feng (co-PI), Linfeng Zhang (co-PI), and Wing Fung Chong (co-PI), Society of Actuaries, March, 2022, \$21635.
+\item NCSA Fellowships, PI: Zhiyu Quan, National Center for Supercomputing Applications, June, 2022, \$24947.
+\item Intel Labs Research Grant, PI: Zhiyu Quan with Runhuan Feng (PI), Tianyang Wang (PI), National Center for Supercomputing Applications, September, 2022, \$25000.
+\end{itemize}
+
+\subsection*{I.\enspace Review Panels (e.g., for Government Agencies,
+  Educational Institutions)}
+
+% Don't list panels both here and under Service.  
+% As mentioned above, Comm Nr 9 specifies
+%
+% ``An activity may be listed only once in % the dossier. If there is
+% a question about where an activity should be placed, please consult
+% the College for guidance.''  
+
+%
+% It is good to list panels here, but then put a note in service that
+% they are here, so that they can be considered and mentioned in the
+% department's evaluation of service.
+
+% Don't list U of I research board panels or other internal panels.
+%
+% Those can be listed under service to the university.
+
+\begin{itemize}
+\item Advisor for the SOA InsurTech Office Hours, Society of Actuaries.
+\item Task force for Actuaries and Open Educational Resources.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% II: Publications
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{2.\enspace Publications and Creative Works}
+
+% NOTE: In each subsection, list items in chronological order from
+% past to present. Put a period at the end of each item.  Give dates
+% with commas, as in "April, 2006."  In each subsection where
+% publications are listed, the items should be numbered, so the
+% "enumerate" environment is used here.
+%
+% IT IS *VERY IMPORTANT* THAT THE NUMBERING OF ITEMS BE KEPT THE SAME
+% OVER TIME; DO NOT ALLOW THIS TO CHANGE FROM ONE USE OF THIS FILE TO
+% THE NEXT.  EVALUATORS MAY REFER TO A PUBLICATION BY ITS NUMBER,
+% WHICH LEADS TO HARMFUL CONFUSION IF THE NUMBERS CHANGE.
+%
+% Uniformity of presentation is important to the department when
+% several dossiers are being sent up.  Keep the subsection headings
+% exactly the same as given here.  If you have nothing to enter in a
+% given subsection, replace the "enumerate" environment by the following:
+%
+%             \hspace*{1.0cm} None.
+%
+% For each item, give the publication information in full.
+% Authors should be listed *exactly* as in the item as published.
+% Give the full name of the journal or other publisher (not an
+% abbreviation), and give the publication details completely.  
+%
+%
+% If a paper has not yet been accepted and sent to the publisher in
+% final form, it should not be described as "to appear" or
+% "accepted", and it should not appear in section F. 
+
+% Papers not yet accepted for publication may be listed in section M.
+% Give the number of manuscript pages in the latest version.
+% Describe the status of the item  completely and accurately. 
+%
+% Consult the department chair or the PT committee chair in case of
+% doubt.
+%
+% In 2017, the Communication was revised to add (page 22):
+%
+%''For candidates for promotion to Full Professor, please indicate which
+%publications and creative works occurred since the most recent
+%promotion.''
+%
 
----
+% Keep the next lines intact.  Use the notations \# and $\ast\;$ and $+$ for
+% each publication according to the definitions given in the next lines:
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\bigskip
+\noindent
+\#\quad Denotes any publication derived from the candidate's thesis.
 
-- The minimizing values can be shown to be
-$$
-\begin{eqnarray*}
-  \hat \beta_1 &=& \frac{ \sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) }{\sum_{i=1}^{n}(x_i-\overline{x})^2 }\\
-  \hat \beta_0 &=& \overline{y}- \hat \beta_1 \overline{x}
-\end{eqnarray*}
-$$
-where $\overline{y} = \frac{1}{n}\sum^{n}_{i=1} y_i$ and $\overline{x} = \frac{1}{n}\sum^{n}_{i=1} x_i$ are the sample means.
-  - Given the data set $(x_i,y_i),\ i=1,2,\ldots,n$, we can calculate $\hat\beta_0$ and $\hat\beta_1$
+\noindent
+$\ast\;$\quad Denotes publication that has undergone stringent editorial
+review by peers.
 
----
+\noindent
+$+$\quad Denotes publication that was invited and carries special
+prestige and recognition.
 
-### Correlation and Simple Linear Regression
+\noindent
+$+$\quad Denotes publication that was invited and carries special
+prestige and recognition.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\noindent 
+$F$\quad For promotion to Full Professor, denotes new publication
+since last promotion at Illinois.
 
-- Correlation analysis is a technique used to quantify the associations between two continuous variables.
-  - We estimate a **sample correlation coefficient**, more specifically the **Pearson Product Moment correlation coefficient**. The sample correlation coefficient, denoted $r$.
 
----
+%%%(Additional symbols may be used to denote other noteworthy
+%%%features. Please define.)
 
-#### Pearson Correlation
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\medskip
+\noindent
+In the field of mathematics, joint authors are listed in
+alphabetical order. 
 
-- The Pearson correlation has two assumptions:
-  - The two variables are normally distributed. We can test this assumption using
-      - A statistical test (Shapiro-Wilk)
-      - A histogram
-      - A QQ plot
-  - The relationship between the two variables is linear. If this relationship is found to be curved, etc. we need to use another correlation test. We can test this assumption by examining the scatterplot between the two variables.
 
----
+%% Comments, Spring 2017: In recent years there has been more
+%% variation in this practice.  Be careful!
+%%
 
-```{r}
-x <- seq(-10,10, 1)
-y <- x*x
-plot(x,y)
-```
+\subsection*{A.\enspace Doctoral Thesis Title}
 
----
+% Give this in the form:
+% \begin{enumerate}
+% \item \emph{Title of thesis}, year, number of pages.
+% \newline (advisor Robert X.~Jones)
+% \end{enumerate
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\begin{enumerate}
+\item \emph{Insurance Analytics with Tree-Based Models}, 2019, 153 pages. \newline (Emiliano A. Valdez)
+\end{enumerate}
 
-```{r}
-cor(x, y, method="pearson")
-rm(x, y)
-```
+\subsection*{B.\enspace Books Authored or Co-Authored (in print or
+  accepted)}
 
----
+\hspace*{1.0cm} None.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\subsection*{C.\enspace Books Edited or Co-Edited (in print or
+  accepted)}
 
-- $r$ ranges between -1 and +1 and quantifies the direction and strength of the linear association between the two variables. The correlation between two variables can be positive (i.e., higher levels of one variable are associated with higher levels of the other) or negative (i.e., higher levels of one variable are associated with lower levels of the other).
-- The sign of the correlation coefficient indicates the direction of the association. The magnitude of the correlation coefficient indicates the strength of the association.
-- A correlation close to zero suggests no linear association between two continuous variables.
+\hspace*{1.0cm} None.
 
----
+\subsection*{D.\enspace Chapters in Books (in print or accepted)}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\hspace*{1.0cm} None.
 
-- There may be a non-linear association between two continuous variables, but the computation of a correlation coefficient does not detect this. Therefore, it is always important to evaluate the data carefully before computing a correlation coefficient. Graphical displays are handy for exploring associations between variables.
+\subsection*{E.\enspace Monographs (in print or accepted)}
 
----
+\hspace*{1.0cm} None.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\subsection*{F.\enspace Articles in Journals (in print or accepted)}
 
-- The formula for the sample correlation coefficient is:
-$$r = \frac{Cov(X,Y)}{\sqrt{s^2_Xs^2_Y}}$$
-where $Cov(X,Y)$ is the covariance of X and Y defined as
-$$Cov(X,Y) =  \frac{ \sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) }{n-1}$$
-$s^2_X$ and $s^2_Y$ are the sample variances of X and Y, defined as follows:
-$$s^2_X= \frac{\sum_{i=1}^{n}(x_i-\overline{x})^2}{n-1} \quad and \quad s^2_Y= \frac{\sum_{i=1}^{n}(y_i-\overline{y})^2}{n-1}$$
+\begin{enumerate}
+\item \#\quad Quan, Zhiyu and Valdez, Emiliano A.. ``Predictive analytics of insurance claims using multivariate decision trees" Dependence Modeling, vol. 6, no. 1, 2018, pp. 377-407. https://doi.org/10.1515/demo-2018-0022
+\item \#\quad Quan, Zhiyu, Gan, Guojun and Valdez, Emiliano A.. ``Tree-based models for variable annuity valuation: Parameter tuning and empirical analysis" Annals of Actuarial Science, vol. 16, no. 1, 2022, pp. 95-118. https://doi:10.1017/S1748499521000075
+\item $\ast\;$\quad Hu, Changyue, Quan, Zhiyu and Chong, Wing Fung. ``Imbalanced learning for insurance using modified loss functions in tree-based models" Insurance: Mathematics and Economics, vol. 106, 2022, pp. 13-32. https://doi.org/10.1016/j.insmatheco.2022.04.010
+\end{enumerate}
 
----
+\subsection*{G.\enspace Creative Works (Exhibitions, Commissions,
+  Competitions, Performances, Designs, Art or Architecture Executed)}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\hspace*{1.0cm} None.
 
-- Regression analysis is a related technique to assess the relationship between a response variable and one or more explanatory variables (risk factors).
-$$\begin{eqnarray*}
-  \beta_1 &=& \frac{ \sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) }{\sum_{i=1}^{n}(x_i-\overline{x})^2 }\\
-   &=& \frac{\frac{1}{(n-1)s_Xs_Y} \sum_{i=1}^{n}(x_i-\overline{x})(y_i-\overline{y}) }{\frac{1}{(n-1)s_Xs_Y}\sum_{i=1}^{n}(x_i-\overline{x})^2 }\\
-   &=& \frac{\frac{1}{s_Xs_Y}Cov(X,Y)}{\frac{1}{s_Xs_Y}s^2_X}. \\
-&=& r\frac{s_Y}{s_X}.
-\end{eqnarray*}$$
+\subsection*{H.\enspace Patents}
 
----
+\hspace*{1.0cm} None.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
-```{r}
-beta1 <- cor(data_all$num_meds, 
-             data_all$days, 
-             method="pearson")*sd(data_all$days)/sd(data_all$num_meds)
-beta1
-beta0 <- mean(data_all$days)-beta1*mean(data_all$num_meds)
-beta0
-slm <- lm(formula = days ~ num_meds, data = data_all)
-slm
-```
+\subsection*{I.\enspace Bulletins, Reports, or Conference Proceedings
+  (in print or accepted)}
 
----
+\begin{enumerate}
+\item Gan, Guojun, Quan, Zhiyu and Valdez, Emiliano A.. ``Machine Learning Techniques for Variable Annuity Valuation" 2018 4th International Conference on Big Data and Information Analytics (BigDIA), 2018, pp. 1-6. https://doi.org/10.1109/BigDIA.2018.8632794
+\end{enumerate}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
-```{r}
-cor(data_all$num_meds, data_all$days, method="pearson")
-```
+\subsection*{J.\enspace Abstracts (in print or accepted)}
 
----
+\hspace*{1.0cm} None.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\subsection*{K.\enspace Book Reviews (in print or accepted)}
 
-If $r$, the relationship, is statistically significantly different from $0$
- - $H_0$: There is no correlation between the two variables: $r = 0$
- - $H_a$: There is a nonzero correlation between the two variables: $r \ne 0$
- 
-```{r}
-cor.test(data_all$num_meds, data_all$days, method="pearson")
-```
+\hspace*{1.0cm} None.
 
----
+\subsection*{L.\enspace Refereed Conference Papers and Presentations}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\hspace*{1.0cm} None.
 
-When testing the null hypothesis that there is no correlation between `num_meds` and `days`, we reject the null hypothesis (r = 0.4722805, t = 53.567, with 9995 degrees of freedom, and a p-value < 2.2e-16). As `num_meds` increases so does `days`. The 95% confidence interval for the correlation between `num_meds` and `days` is (0.4569076, 0.4873714). Note that this 95% confidence interval does not contain 0, which is consistent with our decision to reject the null hypothesis.
+\subsection*{M.\enspace Other}
 
----
+% This is where you can list works in preparation, preprints, and
+% papers in the editorial process.  Describe their state precisely.
+% If it is possible to give links the arxiv, do so.  In most cases,
+% departmental % evaluators or letter writers should be able to
+% examine the work.  
 
-#### Spearman's Rank Correlation
+\begin{enumerate}
+\item Quan, Zhiyu, Wang, Zhiguo, Gan, Guojun and Valdez, Emiliano A.. ``Hybrid tree-based models for insurance claims" Probability in the Engineering and Informational Sciences, submitted after major revision, pp. 1-31.
+\item Yang, Haoming and Quan, Zhiyu. ``Natural language processing application in actuarial science: Interpretable language models" In preparation, pp. 1-26.
+\item Chong, Wing Fung, Linders, Daniel, Quan, Zhiyu and Zhang, Linfeng. ``Incident-specific cyber insurance for market substantiality and Potential Growth" In preparation, pp. 1-30.
+\item Quan, Zhiyu, Hu, Changyue, Dong, Panyi and Valdez, Emiliano A.. ``Improving business insurance loss models by leveraging InsurTech innovation" In preparation, pp. 1-12.
+\item Zhang, Linfeng, Quan, Zhiyu, Feng, Runhuan and Chong, Wing Fung. ``Building an NLP-powered repository and search tool for cyber risk literature" In preparation, pp. 1-5.
+\item Asimit, Vali, Badescu, Alexandru, Quan, Zhiyu and Zhou, Feng. ``Efficient and proper GLM modelling" In preparation, pp. 1-24.
+\item Panyi, Dong Quan, Zhiyu. ``Automated Machine Learning in Insurance" In preparation, pp. 1-12.
+\end{enumerate}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% III: Resident Instruction
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Spearman's rank correlation is a nonparametric measure of the correlation that uses the rank of observations in its calculation, rather than the original numeric values. It measures the monotonic relationship between two variables X and Y. That is, 
-- if Y tends to increase as X increases, the Spearman correlation coefficient is positive. 
-- if Y tends to decrease as X increases, the Spearman correlation coefficient is negative. 
-- A value of zero indicates that there is no tendency for Y to either increase or decrease when X increases. 
+\section*{3.\enspace Resident Instruction}
 
----
+% NOTE: In each subsection, list items in chronological order from past
+% to present. Put a period at the end of each item.  Give dates with
+% commas, as in "April, 2006."  In these subsections, use the "itemize"
+% environment to avoid numbering the items, yet to set them off with a
+% bullet.
+%
+% Uniformity of presentation is important to the department when
+% several dossiers are being sent up.  Keep the subsection headings
+% exactly the same as given here.  If you have nothing to enter in a
+% given subsection, replace the "itemize" environment by the following:
+%
+%             \hspace*{1.0cm} None.
+%
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\subsection*{A.\enspace Summary of Instruction}
 
-- The Spearman correlation measurement makes no assumptions about the distribution of the data.
+\subsubsection*{1.\enspace Descriptive Data}
 
-- The formula for Spearman's correlation $\rho_s$ is
-$$\rho_s = 1 - \frac{6\sum_{i=1}^nd_i^2}{n(n^2-1)}$$
-where $d_i$ is the difference in the ranked observations from each group, $(x_i-y_i)$, and $n$ is the sample size.
+% This item will be provided by the department PT committee using an
+% official report obtained from campus sources.  Currently
+% https://secure.dmi.illinois.edu/course/crsselectrpt.asp
 
----
+%\begin{center}
+%\includegraphics[width=6.0in]{Name_courselist.pdf} % list of courses taught
+%\end{center}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
-```{r}
-x <- seq(-10,10, 1)
-y <- x*x
-cor(x, y, method="pearson")
-cor(x, y, method="spearman")
-rm(x, y) 
-```
+\subsubsection*{2.\enspace Supervision of Graduate Student Research}
 
----
+% To be written by the candidate
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% For each graduate student supervised, provide the student's name and
+% level, dates work was supervised, current status, thesis title if
+% completed and the student's placement. 
 
-```{r}
-cor(data_all$num_meds, data_all$days, method="spearman")
-```
+% Please list doctoral and master's students separately.
+% For each graduate student supervised, provide the student's name and
+% level, dates work was supervised, current status, thesis title if
+% completed, and the student's placement (example: Jones, Timothy,
+% Ph.D., 1985, ``Analysis of Correlation between CEO Compensation and
+% Return on Investment at Ten Fortune 500 Companies,'' now at Arthur
+% Andersen).
 
+% List participation on examining committees or other roles separately
+% from supervision of a thesis. 
 
-```{r}
-cor.test(data_all$num_meds, data_all$days, method="spearman")
-```
 
-Thus we reject the null hypothesis that there is no (Spearman) correlation between `num_meds` and `days` (r = 0.4680778, p-value < 2.2e-16 ). As `num_meds` increases so does `days`.
+\begin{itemize}
+\item Changyue, Hu, M.S., 2020, ``Imbalanced learning using actuarial modified loss function in tree-based models,'' now at the University of Illinois at Urbana-Champaign
+\item Changyue, Hu, Ph.D., 2021, second year Ph.D. candidate
+\item Panyi, Dong, Ph.D., 2022, first year Ph.D. student
+\end{itemize}
 
----
 
-### Confidence Intervals for Coefficient Estimates
+\subsubsection*{3.\enspace Supervision of Undergraduate Students}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% To be written by the candidate
 
-- The standard error of an estimator reflects how it varies under repeated sampling. We have
-$$SE(\hat\beta_1)^2 = \frac{\sigma^2}{\sum_{i=1}^{n}(x_i-\overline{x})^2}$$
+%Please list all undergraduates that have been supervised in research,
+%honors activities, service learning, or public engagement
+%activities. 
 
-$$SE(\hat\beta_0)^2 = \sigma^2 ( \frac{1}{n}+\frac{\overline{x}^2}{\sum_{i=1}^{n}(x_i-\overline{x})^2})$$
-where $\sigma^2 = Var(\epsilon)$
+% For each student, provide the student's name, term during which the
+% activity was supervised, and nature of the activity (e.g., Brown,
+% Keisha, Fall 2012, supervised her senior honor's thesis). 
 
-Why?
+\begin{itemize}
+\item
+\item
+\item
+\end{itemize}
 
----
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\subsubsection*{4.\enspace Other Contributions to Instructional
+  Programs}
 
-- The standard error becomes smaller if $n$ becomes larger.
-  - More data leads to more accuracy.
-- The standard error becomes smaller if $s^2_X = \frac{\sum_{i=1}^{n}(x_i-\overline{x})^2}{n-1}$ becomes larger.
-  - Larger spread of the $X$ values leads to higher accuracy of the point estimates $\hat{\beta}_0$ and $\hat{\beta}_1$.
-- The standard error becomes smaller if $\sigma^2$ becomes smaller.
-  - Smaller spread of the $y$ values leads to higher accuracy of the point estimates $\hat{\beta}_0$ and $\hat{\beta}_1$
+% To be written by the candidate.
 
----
+% Faculty members often make significant instructional contributions
+% of other sorts (e.g., development of course materials used by other
+% instructors, training and supervising teaching assistants, extensive
+% independent study or informal interactions with
+% students). Instructional improvement projects or activities, such as
+% leadership in a significant curricular change, or new courses
+% developed also fall into this category. Please describe noteworthy
+% contributions made by the candidate. 
+%
+% If none, write
+%
+%             \hspace*{1.0cm} None.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
-- These standard errors can be used to compute **confidence intervals**. A 95% confidence interval is defined as a range of values such that with 95% probability, the range will contain the true unknown value of the parameter. It has the form
+\subsection*{B.\enspace Evaluation of Instruction}
 
-$$
-\hat\beta_1 \pm 2 SE(\hat\beta_1)
-$$
+\subsubsection*{1.\enspace Student ICES Course Evaluation Results}
 
-- That is, there is approximately a 95% chance that the interval will contain the true value of $\beta_1$ (under a scenario where we got repeated samples like the present sample)
+% To be provided by department PT committee using an official report obtained
+% from campus resources, after release by the candidate.
 
-```{r}
-confint(slm)
-```
+%\begin{center}
+%\includegraphics[width=6.0in]{NAME_ICES.pdf} % report of ICES scores
+%\end{center}
 
----
+\subsubsection*{2.\enspace Candidate's Teaching Activities Report and
+  Self-Review}
 
-### Hypothesis Testing
+% To be written by the candidate. Page limit of three pages.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% From Communication Nr. 9:
+%''The candidate must provide a personal statement of teaching
+%philosophy, methods, strengths, problems, goals and other material in
+%a manner that will present colleagues with a context for interpreting
+%other evaluative information.''
 
-- Standard errors can also be used to perform hypothesis tests on the coefficients. The most common hypothesis test involves testing the null hypothesis of
-  - $H_0$: There is no relationship between X and Y
-  - $H_a$: There is some relationship between X and Y 
-- Mathematically, this corresponds to testing
-  - $H_0$: $\beta_1=0$
-  - $H_a$: $\beta_1 \ne 0$
-- since if $\beta_1=0$ then the model reduces to $Y = \beta_0 + \epsilon$, and X is not associated with Y.
 
----
+\subsubsection*{3.\enspace Departmental Evaluation of Teaching
+  and Course Documentation (Author of evaluation: )}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% To be written by the department PT committee, for the eventual promotion
+% document.
 
-- To test the null hypothesis, we compute a **t-statistic**, given by
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% IV: Service
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-$$
-t = \frac{\hat\beta_1 - 0 }{SE(\hat\beta_1)}
-$$
+\section*{4.\enspace Service (Public, Professional/Disciplinary, and
+  University)}
 
-- This will have a t-distribution with n − 2 degrees of freedom, assuming $\beta_1=0$.
+% NOTE: In each subsection, list items in chronological order from past
+% to present. Put a period at the end of each item.  Give dates with
+% commas, as in "April, 2006."
+% Uniformity of presentation is important to the department when
+% several dossiers are being sent up.  Keep the subsection headings
+% exactly the same as given here.
 
-- Assume the random variable $T_{n-2}$ has a $t$-distribution with $n-2$ degrees of freedom.
+% Currently this section has two versions: one for faculty members for
+% whom Public Engagement is NOT a primary criterion for promotion
+% (Comm. Nr 9 page 27), and one for faculty members for whom public
+% engagement IS a primary criterion for promotion (page 28).
+% We have listed the NOT version first. 
 
-- The quantile $t_{n-2,1-\frac{\alpha}{2}}$ is defined as follows:
 
-$$\mathbb{P}\left[T_{n-2}\leq  t_{n-2,1-\frac{\alpha}{2}}\right]=1-\frac{\alpha}{2}$$
+\subsection*{A.\enspace Summary of Service}
 
----
+\subsubsection*{1.\enspace Public Engagement}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% To be prepared by the faculty member.
+%
+% See Communication nr. 9, page 27, for guidance on what should be
+% included.
+%
+% If none, enter
+%
+%%\hspace*{1.0cm} None.
 
-- Since the distribution of $T_{n-2}$ is symmetric around zero:
 
-$$\mathbb{P}\left[T_{n-2}>  |t_{n-2,1-\frac{\alpha}{2}}|\right]=\alpha$$
+\subsubsection*{2.\enspace Service to Disciplinary and Professional Societies or Associations}
 
-- quantiles of a $t$ distribution: `qt(p, df)` in `R` 
+% To be written by the candidate.  Here is a place to include
+% refereeing for journals, reading proposals for granting agencies,
+% etc.  Think of general professional service rather than restricting
+% to service to "societies or associations".
 
-- Assume the null hypthesis is true, then: $t\left( \hat{\beta}_1\right)$ is a realisation from a $t$-distribution. We expect the $t$-ratio to be in the interval:
+% List and describe service activities that are NOT included in Section I, Personal History and Professional Experience.
 
-$$\left[ -t_{n-2,1-\frac{\alpha}{2}},t_{n-2,1-\frac{\alpha}{2}}\right]$$
-which is equivalent with saying that we expect that:
-$$t\left( \hat{\beta}_1\right)< |t_{n-2,1-\frac{\alpha}{2}}|$$
+% NSF Panels, for example, should be listed in 1.I, but make a note of
+% them here so that they can be discussed as part of the
+% departmental evaluation of service.  If you list them here and at
+% 1.I, they will have to be taken out here when the dossier goes to
+% the college: Communication Nr. 9 says not to list things twice. 
 
----
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\subsubsection*{3.\enspace University/Campus Service} 
 
-- Conclusion
-$$\text{reject the null hypothesis if }$$
-$$t\left( \hat{\beta}_1\right)>|t_{n-2,1-\frac{\alpha}{2}}|$$
----
+% To be written by the candidate.
+% This is the place to list department, college, campus committee service
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\subsection*{B.\enspace Evaluation of Service (Author of evaluation: )}
 
-- $p$-value:
 
-$$\mathbb{P}\left[T_{n-2}> |t\left(\hat{\beta_1} \right)| \right]=p$$
+% Evaluation to be written by the department PT committee, for the
+% eventual promotion document.
 
-- 
-  - If $p$ is large, then the probability that we observe $t\left(\hat{\beta_1}\right)$ is likely
-  - If $p$ is small (e.g. 1 %), then it is very unlikely that $t\left(\hat{\beta_1}\right)$ comes from the distribution $T_{n-2}$
-  - Calculate the $p$-value:
+% As of 2017, Communication Nr. 9 no longer calls for separate section
+% titles.  But it still asks for remarks on the following categories:
 
-$$\begin{eqnarray*}
-  p &=& 1-\mathbb{P}\left[-t\left(\hat{\beta_1}\right)\leq T_{n-2}\leq t\left(\hat{\beta_1}\right) \right] \\
-   &=& 1-\left(F_{T_{n-2}}\left(t\left(\hat{\beta_1}\right) \right)-F_{T_{n-2}}\left(-t\left(\hat{\beta_1} \right)\right) \right).
-\end{eqnarray*}$$
+%\subsubsection*{1.\enspace Public Engagement}
+%\subsubsection*{2.\enspace Service to Disciplinary and Professional
+%Societies or Associations}
+%\subsubsection*{3.\enspace University/Campus Service}
 
----
+% If faculty member does NOT have public engagement as a primary
+% criterion for promotion, please continue to section V, Research.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
 
-- Assume: $\beta_1\neq 0$ and we hope: $\hat{\beta}_1\approx \beta_1$. We have 
+%%% ALTERNATIVE SECTION IV (Service) For Faculty Members for Whom
+%%% Public Engagement is a Primary Criterion for Promotion (see
+%%% instructions on p.~28) 
+%%%
+%%% From Comm. Nr. 9: ``If public engagement is the primary criterion
+%%% for promotion and has been so specified at the time of
+%%% appointment, procedures of the same rigor as those used for
+%%% evaluating research and teaching should be used for its
+%%% review. 
+%%%
 
-$$\frac{\hat{\beta}_1-\beta_1}{se\left( \hat{\beta}_1\right)}=T_{n-2}$$
 
-- Then:
+%\subsubsection*{1.\enspace Public Engagement}
 
-$$\mathbb{P}\left[ -t_{n-2,1-\frac{\alpha}{2}}\leq \frac{\hat{\beta}_1-\beta_1}{se\left( \hat{\beta}_1\right)} \leq t_{n-2,1-\frac{\alpha}{2}} \right]=1-\alpha$$
+%%%\begin{itemize}
+%%%\item[a.] Candidate's Statement of Public Engagement Goals and
+%%%  Accomplishments
 
----
+% To be written by the candidate.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+%%%\item[b.] Departmental Evaluation of Public Engagement Activities  (Author of evaluation: )
 
-- Confidence interval for $\beta_1$ with confidence level $1-\alpha$:
+% To be written by the department for eventual promotion document.
 
-$$\left[\hat{\beta}_1-se\left( \hat{\beta}_1\right)t_{n-2,1-\frac{\alpha}{2}},  \hat{\beta}_1+se\left( \hat{\beta}_1\right)t_{n-2,1-\frac{\alpha}{2}}\right]$$
+%%%\item[c.] Departmental Evaluation of Future Potential  (Author of evaluation: )
 
-- $t$-ratios
+% To be written by the department for eventual promotion document.
 
-$$\begin{eqnarray*}
-  t\left(\hat{\beta}_0 \right) &=& \frac{\hat{\beta}_0}{se\left( \hat{\beta}_0\right)} \\
-  t\left(\hat{\beta}_1 \right) &=& \frac{\hat{\beta}_1}{se\left( \hat{\beta}_1\right)}.
-\end{eqnarray*}$$
 
+%%%\end{itemize}
 
----
+%\subsubsection*{2.\enspace Service to Disciplinary and Professional Societies or Associations}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% To be written by the candidate.  See regular section 4 above for
+% instructions
+% or 
+%%%\hspace*{1.0cm} None.
 
-- $p$-values
+%\subsubsection*{3.\enspace University/Campus Service} %formerly #3
 
-$$\begin{eqnarray*}
-   p\left(\hat{\beta}_0 \right) &=&  1-\left(F_{T_{n-2}}\left(t\left(\hat{\beta_0}\right) \right)-F_{T_{n-2}}\left(-t\left(\hat{\beta_0} \right)\right) \right)\\
-   p\left(\hat{\beta}_1 \right) &=& 1-\left(F_{T_{n-2}}\left(t\left(\hat{\beta_1}\right) \right)-F_{T_{n-2}}\left(-t\left(\hat{\beta_1} \right)\right) \right).
-\end{eqnarray*}$$
+% To be written by the candidate.  See regular section 4 above for
+% instructions or 
+%%%\hspace*{1.0cm} None.
 
-- Confidence Intervals
+% \subsection*{B.\enspace Evaluation of Service (Author of evaluation: )}
 
-$$\begin{eqnarray*}
-\beta_0&\in &\left[\hat{\beta}_0-se\left( \hat{\beta}_0\right)t_{n-2,1-\frac{\alpha}{2}},  \hat{\beta}_0+se\left( \hat{\beta}_0\right)t_{n-2,1-\frac{\alpha}{2}}\right]\\
-\beta_1&\in&\left[\hat{\beta}_1-se\left( \hat{\beta}_1\right)t_{n-2,1-\frac{\alpha}{2}},  \hat{\beta}_1+se\left( \hat{\beta}_1\right)t_{n-2,1-\frac{\alpha}{2}}\right].
-\end{eqnarray*}$$
+% 
+% Evaluation to be written by the department PT committee, for the
+% eventual promotion document.  See regular section 4 above for
+% instructions 
 
----
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% V: Research
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Using statistical software, it is easy to compute the probability of observing any value equal to |t| or larger. We call this probability the p-value.
+\section*{5.\enspace Research}
 
-```{r}
-summary(slm)
-```
+% Uniformity of presentation is important to the department when
+% several dossiers are being sent up.  Keep the subsection headings
+% exactly the same as given here.
 
+\subsection*{A.\enspace Candidate's Statement of Research Goals and
+Accomplishments}
 
----
+% To be written by the candidate.  Page limit of three pages. This
+% statement should have an introduction that can be understood by
+% faculty across the campus.  In this introduction, technical terms
+% from mathematics should be avoided or explained in an accessible
+% way.  Even the later, more technical part should be written as much
+% as possible for any PhD mathematician
 
-### Assessing the Overall Accuracy of the Model
+% From Comm Nr. 9:
+%-For recommended promotion from associate professor to professor, the
+%statement should focus primarily on research accomplishments since
+%the last promotion. 
+%-The statement should tie together past research and how it relates
+%to future research plans and to teaching/service duties. 
 
-```{r}
-ggplot(data_all, aes(x=num_meds, y=days)) +
-  geom_point(shape=1) + geom_smooth(method=lm)  
-```
 
----
+\subsection*{B.\enspace Departmental Evaluation of Research
+  Accomplishments (Author of evaluation: )}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% With emphasis on at least two specific publications or creative works.
+% Evaluation to be written by the department PT committee, for the
+% eventual promotion document.
+%
+% The departmental evaluation should be independent of the evaluations
+% of external reviewers. The individuals preparing the departmental
+% evaluation of research should not rely on external letters while
+% preparing their own evaluation. 
 
-```{r}
-predict(slm,data.frame(num_meds=c(0,20,40,60)),interval="confidence")
-```
 
----
+\subsection*{C.\enspace Departmental Evaluation of Future Potential
+(Author of evaluation: )}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% Evaluation to be written by the department PT committee, for the eventual
+% promotion document.
 
-```{r}
-data_all %>% filter(num_meds == 0) %>% 
-  summarise(mean = mean(days))
-data_all %>% filter(num_meds == 20) %>% 
-  summarise(mean = mean(days))
-data_all %>% filter(num_meds == 40) %>% 
-  summarise(mean = mean(days))
-data_all %>% filter(num_meds == 60) %>% 
-  summarise(mean = mean(days))
-```
+% As of 2017, Communication Nr. 9 now mentions teaching and service
+% here, as well as research: 
 
+%-Evaluate the candidate's strategy for developing his or her research
+% beyond recent accomplishments. 
+%
+%-Evaluate the candidate's potential to excel in teaching and service.
+%
+%-Assess, in realistic terms, the probable standing of the candidate
+%in his or her field five years from now.
 
----
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% VI. External Evaluations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-- Observation: The predicted values $\hat{y}_i$ do not exactly match the observed values $y_i$
-- Explanation: The prediction $\hat{y}_i$ approximates the systematic part of the regression model:
+% This section is only needed in the eventual promotion document.  It
+% is prepared completely by the department PT committee.  Nothing from
+% the candidate is needed here
 
-$$
-\hat{y}_i \approx f(x_i)=\hat\beta_0+\hat\beta_1x_i
-$$
+\newpage
 
-- The prediction $\hat{y}_i$ approximates the expected response:
+\section*{6.\enspace External Evaluations}
 
-$$
-\hat{y}_i \approx \mathbb{E}[Y_i|\ X_i=x_i]
-$$
+\subsection*{A.\enspace Sample Letter to External Evaluators}
 
----
+% Provided by the department PT committee.
+% Insert here a sample copy of the solicitation letter used.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% For example, 
+%\includegraphics[scale=0.75]{Sample_Letter.pdf}
+%
 
-- The **total sum of squares (TSS)**. We do not use $X$ to predict the response $Y$. Best estimator: $\overline{y}$ then
-$$TSS=\sum_{i=1}^{n}\left(y_i-{\color{red}{\overline{y}}} \right)^2.$$
+\newpage
 
+\subsection*{B.\enspace Qualifications of External Evaluators}
 
-  - Small TSS = low variability in the responses.
-    - estimating responses with $\overline{y}$ works well. Mean Works.
-    - there is no (urgent) need for an advanced prediction model.
-  
-  - High TSS = high variability in the responses
-    - large deviations can be expected when using  $\overline{y}$ 
+% Provided by the department PT committee.
 
----
+\noindent Department promotion procedures require that at least 5
+external letters be solicited.
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% Put letter writers in alphabetical order.
 
-- The **residual sum of squares (RSS)**
+\medskip
+\noindent
+{\bf Letter Writer A} (chosen by the department)\\
+address line 1\\
+address line 2\\
+address line 3
 
-$$RSS=\sum_{i=1}^{n}\left(y_i-{\color{red}{\hat{y}_i}} \right)^2$$
+\medskip
+\noindent
+{\bf Letter Writer B} (chosen from the candidate's list)\\
+address line 1\\
+address line 2\\
+address line 3
 
-- We can write:
+\bigskip
+\vfill
+\noindent Biographical sketches begin on the next page.
 
-$$\left(y_i-\overline{y}\right)= \left(y_i-\hat{y}_i \right) +\left( \hat{y}_i-\overline{y}\right)$$
+% Insert here excuses from those asked who did not write.
+%
+%\noindent Professor Super Important (Great University), chosen
+%from the department list, declined, writing ``I am sorry to say that I
+%am too busy to provide an assessment of Dr. Candidate's work. 
 
-  - $\left(y_i-\overline{y}\right)$: Deviation of the estimate $\overline{y}$ from the observation $y_i$
-  - $\left(y_i-\hat{y}_i \right)$: Deviation of the estimate $\hat{y}_i$ from the observation $y_i$
-  - $\left( \hat{y}_i-\overline{y}\right)$: Deviation explained by the regression line
 
----
+\newpage
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% Put letter writers in alphabetical order.
 
-- Then
+\noindent
+{\bf Letter Writer A} (chosen by the department)\\
+biographical sketch here.
 
-$$\sum_{i=1}^{n}\left(y_i-\overline{y}\right)^2= \sum_{i=1}^{n}\left(y_i-\hat{y}_i \right)^2
-+\sum_{i=1}^{n}\left( \hat{y}_i-\overline{y}\right)^2+2\sum_{i=1}^{n}\left(y_i-\hat{y}_i \right)\left( \hat{y}_i-\overline{y}\right)$$
+\bigskip
+\noindent
+{\bf Letter Writer B} (chosen from the candidate's list)\\
+biographical sketch here.
 
-- If the predicted values $\hat{y}_i$ are determined using the least-squares coefficients $\hat{\beta}_0$ and $\hat{\beta}_1$, then:
 
-$$\sum_{i=1}^{n}\left(y_i-\hat{y}_i \right)\left( \hat{y}_i-\overline{y}\right)=0$$
+\vfill
 
----
+\subsection*{C.\enspace Letters from External Evaluators}
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+% Provided by the department PT committee.
 
-- We then find the following relation between the sum of squares:
+See the following pages.
 
-$$\underbrace{\sum_{i=1}^{n}\left(y_i-\overline{y}\right)^2}_{TSS}= \underbrace{\sum_{i=1}^{n}\left(y_i-\hat{y}_i \right)^2}_{RSS}
-+\underbrace{\sum_{i=1}^{n}\left( \hat{y}_i-\overline{y}\right)^2}_{Regression SS}.$$
+%\includepdf[pages=-,fitpaper=true,pagecommand={}]{NameLetters.pdf}
 
-- 
-  - TSS: Variability between the observed responses.
-  - RSS: Variability comes from the error terms in the regression model.
-  - Regression SS: Variability explained by the regression line.
 
----
 
-### Correlation Coefficient $r$ and Determination Coefficient $R^2$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% VII. EO Comments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
+\newpage
+%
+\section*{7.\enspace Special Comments by the Unit Executive
+Officer (NAME)}
 
-- **R-squared** or fraction of variance explained is
+%
+% Provided by the department chair, for the eventual promotion
+% document.  Prepared AFTER the rest of the dossier. These comments 
+% may discuss votes and other aspects of the committee's deliberation,
+% and issues not otherwise addressed in the dossier.  They are not
+% normally reviewed by the P&T Committee.
+%
 
-$$
-R^2= \frac{\text{Regression SS}}{\text{TSS}} = \frac{\text{TSS-RSS}}{\text{TSS}} = 1 - \frac{\text{RSS}}{\text{TSS}}
-$$
+\end{document}
 
-- If $R^2 \approx 1$:
-  - The variability of the responses is almost completely explained by the regression line.
-  - The variability around the regression line is small.
-- It can be shown that in this simple linear regression setting that $R^2 = r^2$, where $r$ is the correlation between X and Y. 
-
-Why?
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-anova(slm)
-```
-
-RSS = 69793, Regression SS = 20036, TSS = 69793 + 20036
-
-```{r}
-R_2 = 20036/(69793 + 20036)
-R_2
-```
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-summary(slm)
-```
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-r = cor(data_all$num_meds, data_all$days, method="pearson")
-r^2
-```
-
-22% of the variability in the responses is explained by the regression line, the remaining 78% of the variability is caused by the error terms.
-
----
-
-### Prediction Interval and Confidence Interval
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Prediction interval with confidence level $(1-\alpha)$
-
-$$\left[\hat{y}-t_{n-2,1-\frac{\alpha}{2}}se\left(Y-\hat{Y}\right),
-\hat{y}+t_{n-2,1-\frac{\alpha}{2}}se\left(Y-\hat{Y} \right) \right].$$
-where $\hat{y}=\hat{\beta}_0 + \hat{\beta}_1x$
-$$se\left(Y-\hat{Y} \right)=s\sqrt{1+\frac{1}{n}+\frac{(x-\overline{x})^2}{s^2_x(n-1)}}$$
-(we replace the unknown $\sigma$ by the known $s$)
-
-Why?
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- 
-  - Interval for the real response $Y$
-  - Take into account the error term $\epsilon$ and the uncertainty of the regression coefficients.
-
-- Confidence interval
-  - Estimate $\hat{y}$ is an approximation for the expected response $\mathbb{E}[Y]$
-  - The interval where we expect the expected response $\mathbb{E}[Y]$ will be.
-
-$$\left[\hat{y}-t_{n-2,1-\frac{\alpha}{2}}se\left(\hat{Y} \right), \hat{y}-t_{n-2,1+\frac{\alpha}{2}}se\left(\hat{Y} \right) \right]$$
-where 
-$$se\left(\hat{Y} \right)=s\sqrt{\frac{1}{n}+\frac{(x-\overline{x})^2}{s^2_x(n-1)}}$$
-
----
-
-### Model Diagnostic
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Investigate if the assumptions of the model are met by the data
-  - Lack of independence:
-      - The response variables $Y_1,Y_2,\ldots,Y_n$ have to be independent copies of $Y$.
-      - As a result: the residuals $\epsilon_1,\epsilon_2,\ldots,\epsilon_n$ have to be independent.
-  - Heteroscedasticity:
-      - Each error term $\epsilon_i$ should have the same variance.
-      - Heteroscedasticity = the variance of the error terms depends on the observations.
-  - Relation between model deviations and explanatory variables:
-      - The explanatory variables can help to explain deviations.
-      - This information can be used to improve the model.
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Non-normal distribution:
-      - Normality of the error terms is used to construct confidence intervals
-      - The residuals are drawn from a normal distribution
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- Unusual points:
-      - Individual observations can have a big impact on the estimation of the model
-      - The results (prediction/inference) can be sensitive to single observations
-      - Investigate the sensitivity of the model on the extreme observations
-      - Outlier: unusual observations in the $Y$ direction
-        - Decide to keep the outlier in the data set: the observation actually happened and provides important information for the predictions
-        - Decide to remove the outlier from the data set: the outlier is a wrong observation and not important for our particular study
-      - High leverage point: unusual observation in the $X$ direction.
-- There shouldn't be any pattern in the residuals
-
----
-
-### Outliers and High-leverage points: Example
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- The data set:
-  - 19 basis points
-  - outlier: $A$
-  - high leverage point $C$
-  - outlier & high leverage point: $B$
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-#outliers and high leverage points
-x1=c(1.5, 1.7, 2, 2.2, 2.5, 2.5, 2.7, 2.9, 3.0, 
-     3.5, 3.8, 4.2, 4.3, 4.6, 4, 5.1, 5.1, 5.2, 5.5)
-y1=c(3, 2.5, 3.5, 3.0, 3.1, 3.6, 3.2, 3.9, 4, 4, 
-     4.2, 4.1, 4.8, 4.2, 5.1, 5.1, 5.1, 4.8, 5.3)
-Ax=c(3.4)
-Ay=c(8)
-Bx=c(9.5)
-By=c(8)
-Cx=c(9.5)
-Cy=c(2.5)
-x=c(x1,Ax,Bx,Cx)
-y=c(y1,Ay,By,Cy)
-```
-
----
-
-
-```{r}
-plot(c(Ax,Bx,Cx), c(Ay,By,Cy), 
-     xlim=c(0,20), ylim=c(0,20), 
-     xlab="x-values", ylab="y-values")
-text(c(Ax,Bx,Cx), c(Ay,By,Cy)-1, 
-     c("A","B","C"))
-points(x1,y1)
-```
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- We apply linear regression model in 3 different situations:
-  - only the 19 basis points
-  - the 19 basis points + the outlier $A$
-  - the 19 + basis points + outlier/high leverage point $B$
-  - the 19 basis points + the high leverage point $C$
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-# Least squares estimate for the whole data set
-Outliers.full.lm=lm(y~x)
-summary(Outliers.full.lm)
-```
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-# Least squares with 19 basis points
-Outliers.basis.lm=lm(y1~x1)
-summary(Outliers.basis.lm)
-```
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-# Least squares wity basis points + A 
-Outliers.A.lm=lm(c(y1,Ay)~c(x1,Ax))
-summary(Outliers.A.lm)
-```
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-# Least squares with basis points + B 
-Outliers.B.lm=lm(c(y1,By)~c(x1,Bx))
-summary(Outliers.B.lm)
-```
-
----
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-```{r}
-# Least squares wity basis points + C 
-Outliers.C.lm=lm(c(y1,Cy)~c(x1,Cx))
-summary(Outliers.C.lm)
-```
-
----
-
-
-```{r}
-# plot the results 
-plot(c(Ax,Bx,Cx), c(Ay,By,Cy), xlim=c(0,20), ylim=c(0,20), 
-     xlab="x-values", ylab="y-values")
-text(c(Ax,Bx,Cx), c(Ay,By,Cy)-1, c("A","B","C"))
-points(x1,y1)
-abline(Outliers.basis.lm,col="red",lwd=2)
-abline(Outliers.A.lm,col="blue",lwd=2)
-abline(Outliers.B.lm,col="black",lwd=2)
-abline(Outliers.C.lm,col="green",lwd=2)
-legend("bottomright", c("19 basis points", " with A", "with B", "with C"), 
-       col=c("red", "blue", "black", "green"), lty=c(1,1,1,1))
-```
-
-
----
-
-### Residual Analysis
-
-<img align="right" src="image/University-Wordmark-Full-Color-CMYK.jpg" alt="fig1" width="200" height="500" /> 
-
-- The **residual standard error**
-
-$$
-RSE = \sqrt{\frac{1}{n-2}RSS} = \sqrt{\frac{1}{n-2}\sum_{i=1}^{n}\left(y_i-{\color{red}{\hat{y}_i}} \right)^2}
-$$
-
-- RSE is an estimator for the volatility $\sigma^2$ of the error terms $\epsilon_i$ 
-$$
-RSE^2 \approx \sigma^2.
-$$
-
-- 
-  - $n-2$: degrees of freedoms, consider $\hat\beta_0$ and $\hat\beta_1$
-  - RSE is an unbiased estimator for $\sigma^2$
-  - $\overline{e}=\frac{1}{n}\sum_{i=1}^{n}e_i=0$
-  - $RSE^2 = \frac{\text{RSS}}{n-2}=\text{Mean Squared Error (MSE)}$
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document history:
+% LaTeX template for Promotion Dossier for UIUC Math Department
+% Created: Wed 15 Sep 2004 08:39:12 AM CDT
+% Updated per Sandee Moore: Tues 15 Feb 2005 11:00 AM CDT
+%
+% UPDATED per Sandee Moore: Tues 1 Jan 2011 11:00 AM CDT
+%
+% UPDATED by Matthew Ando June 3 2017
+%
+% Originally known as PT1template.tex
+% For technical help/questions hildebr@math.uiuc.edu was the original contact
+% Sent to Tori/webmaster 8-1-05 to be put online for the first time
+% Revised 12-7-05 by Ward Henson, PT committee chair.
+% Name changed 12-7-05 to PTtemplate2006.tex by Ward Henson
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
