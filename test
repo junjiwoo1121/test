@@ -1,15 +1,16 @@
-% PTtemplate2017.tex = name of this file.
-% See end of the file for its history.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
+% LaTeX template for the CANDIDATE ACTIVITY OUTLINE FORM.
+%
+% PTtemplate2022.tex = name of this file.
+% See end of the file for its history.
 %
 % IMPORTANT: READ THE COMMENTS IN THIS FILE; THEY INCLUDE INSTRUCTIONS
 % THAT *MUST* BE FOLLOWED WHEN PREPARING YOUR FILE FOR THE DEPARTMENT.
 %
-%
 % FILE NAMING: each user of this template should customize the
 % filename in a uniform manner, as follows: A candidate whose surname
 % is "Smith" should name the file "PTsmith.tex".
-%
 %
 % This template is for use by faculty in the UIUC Mathematics
 % Department in the promotion process, including 3rd year letters, etc.
@@ -23,49 +24,101 @@
 % INSTRUCTIONS:
 %
 % Most things are self-explanatory.  The template takes care of
-% formatting matters, so DO NOT use commands that affect spacing,
-% font size, page size, etc. Avoid the use of custom macros.  Consult
-% the PT committee chair or department chair if you need to deviate
-% from any instructions.
+% formatting matters, so DO NOT use commands that affect spacing, font
+% size, page size, etc.  Consult the PT committee chair if you need to
+% deviate from any instructions.
+%
 % Refer to the Provost's "Communication #9" for additional
 % instructions and guidelines. This template is derived from
-% communication #9, especially from the outline of a promotion
-% document and the instructions for its use.
-% It is important that you become familiar with communication #9.
+% Communication #9, especially from the outline of a promotion
+% document and the instructions for its use. It is important that you
+% become familiar with Communication #9.  As that document is updated
+% yearly, if anything in this template does not match the
+% Communication #9, please bring this to the attention the PT chair.
+%
 % Note that all items in a given subsection need to be arranged in
-% chronological (NOT reverse chronological) order.
-% In each subsection, pay close attention to the comments located
-% there. These explain many small matters of detail which must be
-% followed.
+% chronological (NOT reverse chronological) order.  In each
+% subsection, pay close attention to the comments located there. These
+% explain many small matters of detail which must be followed.
+%
+%
+% NEW FOR 2022: There is no longer any interleaving between the parts
+% of the PT packet written by the candidate and the department.  This
+% document is for the candidate; there is a separate document for the
+% UNIT EVALUATION FORM.
 %
 %
 % The LaTeX file begins here:
 
 \documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
 \usepackage{url,amsmath, amssymb}
-\usepackage{graphicx} % this is used to include the scanned teaching reports
+\usepackage[top=0.625in, bottom=1in, left=1in, right=1in]{geometry}
 
-%%%MODIFIED FOR 1-INCH MARGINS 10-5-04 AJ Hildebrand
-\addtolength{\oddsidemargin}{-0.7in}
-\addtolength{\textheight}{0.9in}
-\addtolength{\textwidth}{1.4in}
-\addtolength{\voffset}{-0.7in}
+% move page number
+\usepackage{fancyhdr}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhf{}
+\rfoot{\small \thepage}
+\pagestyle{fancy}
+
+% \usepackage{newtxtext}  Switching to Times font can save a little
+% space if needed.
+
+%%%%% macros to mimic the style of the official Comm 9 template %%%%%%%%%% 
+
+\renewcommand{\section}[2]{%
+
+  \vspace{0.7cm}
+  
+  {\large \noindent \hspace{-1.0cm} \textbf{\textsc{#1.\enspace#2}}}
+  
+}
+
+\renewcommand{\subsection}[2]{%
+
+  \vspace{0.3cm}
+  
+  {\noindent #1.\enspace\underline{#2}}
+  
+}
+
+\newcommand{\subsectionwithnote}[3]{%
+
+  \vspace{0.3cm}
+  
+  {\noindent #1.\enspace\underline{#2} (\emph{#3})}
+}
+
+\renewcommand{\subitem}[2]{%
+\item[#1.] \underline{#2}
+  
+}
+
+\newcommand{\candidatename}[1]{%
+  \centerline{\Large\textbf{#1}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CANDIDATE ACTIVITY OUTLINE FORM
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 \begin{document}
 
-\centerline{$\underline{\textbf{\Large Zhiyu Quan}}$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Candidate name
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% ENTER CANDIDATE'S FULL NAME IN THE LINE ABOVE, IN PLACE OF "John Q.~Smith".
-% THIS LINE GETS OMITTED IN THE EVENTUAL PROMOTION DOCUMENT, REPLACED
-% BY THE OFFICIAL COVER PAGE (AS SPECIFIED IN COMMUNICATION #9).
+\candidatename{John Q.~Smith}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % I: Personal History
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\bigskip
-
-\section*{1.\enspace Personal History and Professional Experience}
+\section{I}{Personal History and Professional Experience}
 
 % NOTE: In each subsection, list items in chronological order from past
 % to present. Put a period at the end of each item.  Give dates with
@@ -78,42 +131,41 @@
 % exactly the same as given here.  If you have nothing to enter in a
 % given subsection, replace the "itemize" environment by the following:
 %
-%             \hspace*{1.0cm} None.
+%      None.
 %
-
-%
-% From Communication Nr. 9: ``An activity may be listed only once in
-% the dossier. If there is a question about where an activity should
-% be placed, please consult the College for guidance.'' 
   
-\subsection*{A.\enspace Educational Background}
+\subsection{A}{Educational Background}
 
 % For each degree, provide name of institution; degree, field of study;
 % date of degree.
 
 \begin{itemize}
-\item Xiamen University; B.S., Mathematics and Applied Mathematics; July, 2012.
-\item Michigan State University; M.S., Applied Statistics; May, 2014.
-\item University of Connecticut; Ph.D., Mathematics with Thesis in Actuarial Science; December, 2019.
+\item 
+\item 
+\item 
 \end{itemize}
 
-\subsection*{B.\enspace List of Academic Positions since Final Degree}
+\subsection{B}{List of Academic Positions since Final Degree}
 
 % For each regular position, list inclusive dates, title, and location.
 
 \begin{itemize}
-\item August, 2020 to present, Assistant Professor, Department of Mathematics.
-\item May, 2021 to present, Affiliate Assistant Professor, Department of Statistics.
-\item June, 2021 to present, Affiliate Assistant Professor, National Center for Supercomputing Applications.
+\item 
+\item 
+\item 
 \end{itemize}
 
-\subsection*{C.\enspace Other Professional Employment}
+\subsection{C}{Other Professional Employment}
 
 % This is the place to put visiting appointments, etc.
 
-\hspace*{1.0cm} None.
+\begin{itemize}
+\item
+\item
+\item
+\end{itemize}
 
-\subsection*{D.\enspace Honors, Recognition and Outstanding
+\subsection{D}{Honors, Recognition, and Outstanding
   Achievements}
 
 % Examples: Sloan dissertation graduate fellowships, thesis prizes,
@@ -122,14 +174,13 @@
 %
 
 \begin{itemize}
-\item Doctoral Student Travel Award, University of Connecticut.
-\item Doctoral Dissertation Fellowship, University of Connecticut.
-\item 2019 ARC Presentation Prizes - Honorable Mention, Society of Actuaries.
-\item Arnold O. Beckman Research Award
+\item
+\item
+\item
 \end{itemize}
 
 
-\subsection*{E.\enspace Invited Lectures and Invited Conference Presentations}
+\subsection{E}{Invited Lectures and Invited Conference Presentations}
 
 % For candidates for promotion to Professor, a full (career) list of
 % events may be provided or, in the interest of brevity, a list of only
@@ -138,81 +189,82 @@
 % If you provide the list only since last promotion, then change the
 % title of the subsection to 
 %
-% \subsection*{E.\enspace Invited Lectures and Invited Conference
-% Presentations since Last Promotion}
+% \subsection{E}{Invited Lectures and Invited Conference Presentations
+% since Last Promotion}
 % 
 % Do not include presentations at UIUC.  
-%
 
 \begin{itemize}
-\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, McGill Seminar Series in Statistics, Department of Mathematics and Statistics at the McGill University, Montréal, Canada, 08 October 2021.
-\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, Lecture of Statistics, Department of Statistics at the Renmin University, Beijing, China, 13 October 2021.
-\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, AMS AFM Seminar Series, Department of Actuarial Mathematics and Statistics at the Heriot-Watt University, Edinburgh, United Kingdom, 02 February 2022.
-\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the 35th New England Statistics Symposium (NESS): Statistics, the Heart of Data Science, Department of Statistics at the University of Connecticut, Storrs, USA, 22-23 May 2022.
-\item Data Science for Insurance Analytics, The UR International Summer School, Facultad de Economia at the Universidad del Rosario (Del Rosario University), Bogota, Colombia, 20 June - 06 July 2022.
-\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the Fifth ICSA-Canada Chapter Symposium, International Chinese Statistical Association, Banff, Canada, 08-10 July 2022.
-\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the Joint Statistical Meetings (JSM) 2022, American Statistical Association, Washington DC, USA, 06-11 August 2022.
+\item
+\item
+\item
 \end{itemize}
 
-\subsection*{F.\enspace Offices Held in Professional Societies}
+\subsection{F}{Offices Held in Professional Societies}
 
-\hspace*{1.0cm} None.
+% If none, delete the itemize environment and put
+%
+%     None.
 
-\subsection*{G.\enspace Editorships of Journals or Other Learned
+\begin{itemize}
+\item
+\item
+\item
+\end{itemize}
+
+\subsection{G}{Editorships of Journals or Other Learned
   Publications}
 
-\hspace*{1.0cm} None.
+% If none, delete the itemize environment and put
+%
+%     None.
 
-\subsection*{H.\enspace Grants Received Since Last Promotion at UIUC}
+\begin{itemize}
+\item
+\item
+\item
+\end{itemize}
+
+\subsection{H}{Grants Received}
 
 % List PI first with "PI" label, any co-PI's, granting agency,
 % dates of grant, and dollar amount.  For a large multi-person grant
 % indicate the support it provides to the person profiled here.
 %
-% Do not list U of I Research Board grants
+% For candidates for promotion to Professor, a full (career) list of
+% events may be provided or, in the interest of brevity, a list of only
+% those events since the last promotion may be provided, in which case
+% change the subsection title.
+%
+% Do not list U of I Research Board grants, unless you are using this
+% for a third-year review.
 
 \begin{itemize}
-\item Committee on Knowledge Extension Research Travel Grants, PI: Zhiyu Quan, Society of Actuaries, August, 2018, \$1000.
-\item Committee on Knowledge Extension Research Travel Grants, PI: Zhiyu Quan, Society of Actuaries, August, 2019, \$1000.
-\item InsurTech Research Grant, PI: Zhiyu Quan, Carpe Data, September, 2020, \$5000.
-\item Centers of Actuarial Excellence, PI: Zhiyu Quan with Runhuan Feng (PI), Jay Kesan (PI), Wing Fung Chong (PI) and Daniel Linders (PI), Society of Actuaries, June, 2021, \$10000.
-\item Summer InsurTech Research Grant, PI: Zhiyu Quan, Carpe Data, July, 2021, \$5000.
-\item Azure Compute Credits, PI: Zhiyu Quan, Microsoft, September, 2021, \$5000.
-\item Cyber Research Grant, PI: Zhiyu Quan with Runhuan Feng (PI), AXIS Capital, January, 2022, \$20000.
-\item SOA Research Institute \& General Insurance Research, PI: Zhiyu Quan with Runhuan Feng (co-PI), Linfeng Zhang (co-PI), and Wing Fung Chong (co-PI), Society of Actuaries, March, 2022, \$21635.
-\item NCSA Fellowships, PI: Zhiyu Quan, National Center for Supercomputing Applications, June, 2022, \$24947.
-\item Intel Labs Research Grant, PI: Zhiyu Quan with Runhuan Feng (PI), Tianyang Wang (PI), National Center for Supercomputing Applications, September, 2022, \$25000.
+\item
+\item
+\item
 \end{itemize}
 
-\subsection*{I.\enspace Review Panels (e.g., for Government Agencies,
-  Educational Institutions)}
+\subsection{I}{Review Panels}
 
-% Don't list panels both here and under Service.  
-% As mentioned above, Comm Nr 9 specifies
-%
-% ``An activity may be listed only once in % the dossier. If there is
-% a question about where an activity should be placed, please consult
-% the College for guidance.''  
-
-%
-% It is good to list panels here, but then put a note in service that
+% You should list panels here, but then put a note in service that
 % they are here, so that they can be considered and mentioned in the
 % department's evaluation of service.
-
-% Don't list U of I research board panels or other internal panels.
 %
-% Those can be listed under service to the university.
+% Don't list U of I research board panels or other internal panels;
+% those can be listed under service to the university.
 
 \begin{itemize}
-\item Advisor for the SOA InsurTech Office Hours, Society of Actuaries.
-\item Task force for Actuaries and Open Educational Resources.
+\item
+\item
+\item
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % II: Publications
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{2.\enspace Publications and Creative Works}
+\section{II}{Publications and Creative Works}
 
 % NOTE: In each subsection, list items in chronological order from
 % past to present. Put a period at the end of each item.  Give dates
@@ -230,7 +282,7 @@
 % exactly the same as given here.  If you have nothing to enter in a
 % given subsection, replace the "enumerate" environment by the following:
 %
-%             \hspace*{1.0cm} None.
+%              None.
 %
 % For each item, give the publication information in full.
 % Authors should be listed *exactly* as in the item as published.
@@ -271,10 +323,6 @@ review by peers.
 $+$\quad Denotes publication that was invited and carries special
 prestige and recognition.
 
-\noindent
-$+$\quad Denotes publication that was invited and carries special
-prestige and recognition.
-
 \noindent 
 $F$\quad For promotion to Full Professor, denotes new publication
 since last promotion at Illinois.
@@ -290,11 +338,7 @@ In the field of mathematics, joint authors are listed in
 alphabetical order. 
 
 
-%% Comments, Spring 2017: In recent years there has been more
-%% variation in this practice.  Be careful!
-%%
-
-\subsection*{A.\enspace Doctoral Thesis Title}
+\subsection{A}{Doctoral Thesis Title}
 
 % Give this in the form:
 % \begin{enumerate}
@@ -303,66 +347,104 @@ alphabetical order.
 % \end{enumerate
 
 \begin{enumerate}
-\item \emph{Insurance Analytics with Tree-Based Models}, 2019, 153 pages. \newline (Emiliano A. Valdez)
+\item \emph{}, , pages. \newline (advisor )
 \end{enumerate}
 
-\subsection*{B.\enspace Books Authored or Co-Authored (in print or
-  accepted)}
-
-\hspace*{1.0cm} None.
-
-\subsection*{C.\enspace Books Edited or Co-Edited (in print or
-  accepted)}
-
-\hspace*{1.0cm} None.
-
-\subsection*{D.\enspace Chapters in Books (in print or accepted)}
-
-\hspace*{1.0cm} None.
-
-\subsection*{E.\enspace Monographs (in print or accepted)}
-
-\hspace*{1.0cm} None.
-
-\subsection*{F.\enspace Articles in Journals (in print or accepted)}
+\subsectionwithnote{B}{Books Authored or Co-Authored}{in print or accepted}
 
 \begin{enumerate}
-\item \#\quad Quan, Zhiyu and Valdez, Emiliano A.. ``Predictive analytics of insurance claims using multivariate decision trees" Dependence Modeling, vol. 6, no. 1, 2018, pp. 377-407. https://doi.org/10.1515/demo-2018-0022
-\item \#\quad Quan, Zhiyu, Gan, Guojun and Valdez, Emiliano A.. ``Tree-based models for variable annuity valuation: Parameter tuning and empirical analysis" Annals of Actuarial Science, vol. 16, no. 1, 2022, pp. 95-118. https://doi:10.1017/S1748499521000075
-\item $\ast\;$\quad Hu, Changyue, Quan, Zhiyu and Chong, Wing Fung. ``Imbalanced learning for insurance using modified loss functions in tree-based models" Insurance: Mathematics and Economics, vol. 106, 2022, pp. 13-32. https://doi.org/10.1016/j.insmatheco.2022.04.010
+\item
+\item
+\item
 \end{enumerate}
 
-\subsection*{G.\enspace Creative Works (Exhibitions, Commissions,
-  Competitions, Performances, Designs, Art or Architecture Executed)}
-
-\hspace*{1.0cm} None.
-
-\subsection*{H.\enspace Patents}
-
-\hspace*{1.0cm} None.
-
-
-\subsection*{I.\enspace Bulletins, Reports, or Conference Proceedings
-  (in print or accepted)}
+\subsectionwithnote{C}{Books Edited or Co-Edited}{in print or accepted}
 
 \begin{enumerate}
-\item Gan, Guojun, Quan, Zhiyu and Valdez, Emiliano A.. ``Machine Learning Techniques for Variable Annuity Valuation" 2018 4th International Conference on Big Data and Information Analytics (BigDIA), 2018, pp. 1-6. https://doi.org/10.1109/BigDIA.2018.8632794
+\item
+\item
+\item
+\end{enumerate}
+
+\subsectionwithnote{D}{Chapters in Books}{in print or accepted}
+
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
+
+\subsectionwithnote{E}{Monographs}{in print or accepted}
+
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
+
+\subsectionwithnote{F}{Articles in Journals}{in print or accepted}
+
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
+
+\subsection{G}{Creative Works}
+% (Exhibitions, Commissions, Competitions, Performances, Designs, Art
+% or Architecture Executed)
+
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
+
+\subsection{H}{Patents}
+
+\begin{enumerate}
+\item
+\item
+\item
 \end{enumerate}
 
 
-\subsection*{J.\enspace Abstracts (in print or accepted)}
+\subsectionwithnote{I}%
+{Bulletins, Reports, or Conference Proceedings}%
+{in print or accepted}
 
-\hspace*{1.0cm} None.
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
 
-\subsection*{K.\enspace Book Reviews (in print or accepted)}
 
-\hspace*{1.0cm} None.
+\subsectionwithnote{J}{Abstracts}{in print or accepted}
 
-\subsection*{L.\enspace Refereed Conference Papers and Presentations}
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
 
-\hspace*{1.0cm} None.
+\subsectionwithnote{K}{Book Reviews}{in print or accepted}
 
-\subsection*{M.\enspace Other}
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
+
+\subsection{L}{Refereed Conference Papers and Presentations}
+
+\begin{enumerate}
+\item
+\item
+\item
+\end{enumerate}
+
+\subsection{M}{Other}
 
 % This is where you can list works in preparation, preprints, and
 % papers in the editorial process.  Describe their state precisely.
@@ -371,20 +453,16 @@ alphabetical order.
 % examine the work.  
 
 \begin{enumerate}
-\item Quan, Zhiyu, Wang, Zhiguo, Gan, Guojun and Valdez, Emiliano A.. ``Hybrid tree-based models for insurance claims" Probability in the Engineering and Informational Sciences, submitted after major revision, pp. 1-31.
-\item Yang, Haoming and Quan, Zhiyu. ``Natural language processing application in actuarial science: Interpretable language models" In preparation, pp. 1-26.
-\item Chong, Wing Fung, Linders, Daniel, Quan, Zhiyu and Zhang, Linfeng. ``Incident-specific cyber insurance for market substantiality and Potential Growth" In preparation, pp. 1-30.
-\item Quan, Zhiyu, Hu, Changyue, Dong, Panyi and Valdez, Emiliano A.. ``Improving business insurance loss models by leveraging InsurTech innovation" In preparation, pp. 1-12.
-\item Zhang, Linfeng, Quan, Zhiyu, Feng, Runhuan and Chong, Wing Fung. ``Building an NLP-powered repository and search tool for cyber risk literature" In preparation, pp. 1-5.
-\item Asimit, Vali, Badescu, Alexandru, Quan, Zhiyu and Zhou, Feng. ``Efficient and proper GLM modelling" In preparation, pp. 1-24.
-\item Panyi, Dong Quan, Zhiyu. ``Automated Machine Learning in Insurance" In preparation, pp. 1-12.
+\item
+\item
+\item
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % III: Resident Instruction
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{3.\enspace Resident Instruction}
+\section{III}{Contributions to Teaching and Learning}
 
 % NOTE: In each subsection, list items in chronological order from past
 % to present. Put a period at the end of each item.  Give dates with
@@ -397,26 +475,30 @@ alphabetical order.
 % exactly the same as given here.  If you have nothing to enter in a
 % given subsection, replace the "itemize" environment by the following:
 %
-%             \hspace*{1.0cm} None.
+%              None.
 %
 
-\subsection*{A.\enspace Summary of Instruction}
+\subsection{A}{Summary of Teaching Activity}
 
-\subsubsection*{1.\enspace Descriptive Data}
-
-% This item will be provided by the department PT committee using an
-% official report obtained from campus sources.  Currently
+\begin{enumerate}
+\subitem{1}{Descriptive Data}
+% This has two parts:
+% 
+% 1. a formal copy of instructor PT package from DMI:
 % https://secure.dmi.illinois.edu/course/crsselectrpt.asp
+% 
+% 2. A brief description of each course taught, see Comm 9 for
+% details.
+%
+% One way to include 1 to save the webpage as a PDF file and incorporate
+% it via:
+%
+%  \begin{center}
+%  \includegraphics[width=6.0in]{Name_courselist.pdf} % list of courses taught
+%  \end{center}
 
-%\begin{center}
-%\includegraphics[width=6.0in]{Name_courselist.pdf} % list of courses taught
-%\end{center}
 
-
-\subsubsection*{2.\enspace Supervision of Graduate Student Research}
-
-% To be written by the candidate
-
+\subitem{2}{Supervision of Graduate Students}
 % For each graduate student supervised, provide the student's name and
 % level, dates work was supervised, current status, thesis title if
 % completed and the student's placement. 
@@ -432,17 +514,14 @@ alphabetical order.
 % List participation on examining committees or other roles separately
 % from supervision of a thesis. 
 
-
 \begin{itemize}
-\item Changyue, Hu, M.S., 2020, ``Imbalanced learning using actuarial modified loss function in tree-based models,'' now at the University of Illinois at Urbana-Champaign
-\item Changyue, Hu, Ph.D., 2021, second year Ph.D. candidate
-\item Panyi, Dong, Ph.D., 2022, first year Ph.D. student
+\item
+\item
+\item
 \end{itemize}
 
 
-\subsubsection*{3.\enspace Supervision of Undergraduate Students}
-
-% To be written by the candidate
+\subitem{3}{Supervision of Undergraduate Students}
 
 %Please list all undergraduates that have been supervised in research,
 %honors activities, service learning, or public engagement
@@ -459,10 +538,7 @@ alphabetical order.
 \end{itemize}
 
 
-\subsubsection*{4.\enspace Other Contributions to Instructional
-  Programs}
-
-% To be written by the candidate.
+\subitem{4}{Other Contributions to Teaching and Learning}
 
 % Faculty members often make significant instructional contributions
 % of other sorts (e.g., development of course materials used by other
@@ -475,322 +551,99 @@ alphabetical order.
 %
 % If none, write
 %
-%             \hspace*{1.0cm} None.
+%     None.
 
+\begin{itemize}
+\subitem{1}{Curriculum research and development}
+  
+\subitem{2}{Educational service}
 
-\subsection*{B.\enspace Evaluation of Instruction}
+\subitem{3}{Personal development}
 
-\subsubsection*{1.\enspace Student ICES Course Evaluation Results}
+\subitem{4}{Informal student mentoring and support}
 
-% To be provided by department PT committee using an official report obtained
-% from campus resources, after release by the candidate.
+\subitem{5}{Other}
 
-%\begin{center}
-%\includegraphics[width=6.0in]{NAME_ICES.pdf} % report of ICES scores
-%\end{center}
+\end{itemize}
 
-\subsubsection*{2.\enspace Candidate's Teaching Activities Report and
-  Self-Review}
-
-% To be written by the candidate. Page limit of three pages.
-
-% From Communication Nr. 9:
-%''The candidate must provide a personal statement of teaching
-%philosophy, methods, strengths, problems, goals and other material in
-%a manner that will present colleagues with a context for interpreting
-%other evaluative information.''
-
-
-\subsubsection*{3.\enspace Departmental Evaluation of Teaching
-  and Course Documentation (Author of evaluation: )}
-
-% To be written by the department PT committee, for the eventual promotion
-% document.
+\end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % IV: Service
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{4.\enspace Service (Public, Professional/Disciplinary, and
-  University)}
+\section{IV}{Service}
 
-% NOTE: In each subsection, list items in chronological order from past
-% to present. Put a period at the end of each item.  Give dates with
-% commas, as in "April, 2006."
-% Uniformity of presentation is important to the department when
-% several dossiers are being sent up.  Keep the subsection headings
-% exactly the same as given here.
+% NOTE: In each subsection, list items in chronological order from
+% past to present. Put a period at the end of each item.  Give dates
+% with commas, as in "April, 2006."  Uniformity of presentation is
+% important to the department when several dossiers are being sent up.
+% Keep the subsection headings exactly the same as given here.
 
-% Currently this section has two versions: one for faculty members for
-% whom Public Engagement is NOT a primary criterion for promotion
-% (Comm. Nr 9 page 27), and one for faculty members for whom public
-% engagement IS a primary criterion for promotion (page 28).
-% We have listed the NOT version first. 
+\subsection{A}{Summary of Service}
 
 
-\subsection*{A.\enspace Summary of Service}
+\begin{enumerate}
 
-\subsubsection*{1.\enspace Public Engagement}
+\subitem{1}{Public Engagement}
 
-% To be prepared by the faculty member.
-%
 % See Communication nr. 9, page 27, for guidance on what should be
 % included.
 %
 % If none, enter
 %
-%%\hspace*{1.0cm} None.
+%%      None.
 
 
-\subsubsection*{2.\enspace Service to Disciplinary and Professional Societies or Associations}
+\subitem{2}{Service to Disciplinary and Professional Societies or Associations}
 
-% To be written by the candidate.  Here is a place to include
-% refereeing for journals, reading proposals for granting agencies,
-% etc.  Think of general professional service rather than restricting
-% to service to "societies or associations".
+% Here is a place to include refereeing for journals, reading
+% proposals for granting agencies, etc.  Think of general professional
+% service rather than restricting to service to "societies or
+% associations".
 
-% List and describe service activities that are NOT included in Section I, Personal History and Professional Experience.
+% List and describe service activities that are NOT included in
+% Section I, Personal History and Professional Experience.
 
 % NSF Panels, for example, should be listed in 1.I, but make a note of
 % them here so that they can be discussed as part of the
-% departmental evaluation of service.  If you list them here and at
-% 1.I, they will have to be taken out here when the dossier goes to
-% the college: Communication Nr. 9 says not to list things twice. 
+% departmental evaluation of service. 
+
+\subitem{3}{University and/or Campus Service} 
+
+\subitem{4}{Other Service}
 
 
-\subsubsection*{3.\enspace University/Campus Service} 
-
-% To be written by the candidate.
-% This is the place to list department, college, campus committee service
-
-\subsection*{B.\enspace Evaluation of Service (Author of evaluation: )}
-
-
-% Evaluation to be written by the department PT committee, for the
-% eventual promotion document.
-
-% As of 2017, Communication Nr. 9 no longer calls for separate section
-% titles.  But it still asks for remarks on the following categories:
-
-%\subsubsection*{1.\enspace Public Engagement}
-%\subsubsection*{2.\enspace Service to Disciplinary and Professional
-%Societies or Associations}
-%\subsubsection*{3.\enspace University/Campus Service}
-
-% If faculty member does NOT have public engagement as a primary
-% criterion for promotion, please continue to section V, Research.
-
-
-%%% ALTERNATIVE SECTION IV (Service) For Faculty Members for Whom
-%%% Public Engagement is a Primary Criterion for Promotion (see
-%%% instructions on p.~28) 
-%%%
-%%% From Comm. Nr. 9: ``If public engagement is the primary criterion
-%%% for promotion and has been so specified at the time of
-%%% appointment, procedures of the same rigor as those used for
-%%% evaluating research and teaching should be used for its
-%%% review. 
-%%%
-
-
-%\subsubsection*{1.\enspace Public Engagement}
-
-%%%\begin{itemize}
-%%%\item[a.] Candidate's Statement of Public Engagement Goals and
-%%%  Accomplishments
-
-% To be written by the candidate.
-
-%%%\item[b.] Departmental Evaluation of Public Engagement Activities  (Author of evaluation: )
-
-% To be written by the department for eventual promotion document.
-
-%%%\item[c.] Departmental Evaluation of Future Potential  (Author of evaluation: )
-
-% To be written by the department for eventual promotion document.
-
-
-%%%\end{itemize}
-
-%\subsubsection*{2.\enspace Service to Disciplinary and Professional Societies or Associations}
-
-% To be written by the candidate.  See regular section 4 above for
-% instructions
-% or 
-%%%\hspace*{1.0cm} None.
-
-%\subsubsection*{3.\enspace University/Campus Service} %formerly #3
-
-% To be written by the candidate.  See regular section 4 above for
-% instructions or 
-%%%\hspace*{1.0cm} None.
-
-% \subsection*{B.\enspace Evaluation of Service (Author of evaluation: )}
-
-% 
-% Evaluation to be written by the department PT committee, for the
-% eventual promotion document.  See regular section 4 above for
-% instructions 
+\end{enumerate}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% V: Research
+% V: Candidate statements
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section*{5.\enspace Research}
+\section{V}{Candidate Statements}
 
 % Uniformity of presentation is important to the department when
 % several dossiers are being sent up.  Keep the subsection headings
 % exactly the same as given here.
 
-\subsection*{A.\enspace Candidate's Statement of Research Goals and
-Accomplishments}
+\subsection{A}{Candidate Research Statement}
 
-% To be written by the candidate.  Page limit of three pages. This
-% statement should have an introduction that can be understood by
-% faculty across the campus.  In this introduction, technical terms
-% from mathematics should be avoided or explained in an accessible
-% way.  Even the later, more technical part should be written as much
-% as possible for any PhD mathematician
+% See Comm 9 for details
 
-% From Comm Nr. 9:
-%-For recommended promotion from associate professor to professor, the
-%statement should focus primarily on research accomplishments since
-%the last promotion. 
-%-The statement should tie together past research and how it relates
-%to future research plans and to teaching/service duties. 
+\subsection{B}{Candidate Teaching Statement}
 
+% See Comm 9 for details
 
-\subsection*{B.\enspace Departmental Evaluation of Research
-  Accomplishments (Author of evaluation: )}
+\subsection{C}{Candidate Service Statement}
 
-% With emphasis on at least two specific publications or creative works.
-% Evaluation to be written by the department PT committee, for the
-% eventual promotion document.
-%
-% The departmental evaluation should be independent of the evaluations
-% of external reviewers. The individuals preparing the departmental
-% evaluation of research should not rely on external letters while
-% preparing their own evaluation. 
+% See Comm 9 for details
 
+\subsection{D}{Candidate Statement on Diversity, Equity, and
+  Inclusion Activities}
 
-\subsection*{C.\enspace Departmental Evaluation of Future Potential
-(Author of evaluation: )}
+% See Comm 9 for details
 
-% Evaluation to be written by the department PT committee, for the eventual
-% promotion document.
-
-% As of 2017, Communication Nr. 9 now mentions teaching and service
-% here, as well as research: 
-
-%-Evaluate the candidate's strategy for developing his or her research
-% beyond recent accomplishments. 
-%
-%-Evaluate the candidate's potential to excel in teaching and service.
-%
-%-Assess, in realistic terms, the probable standing of the candidate
-%in his or her field five years from now.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% VI. External Evaluations
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% This section is only needed in the eventual promotion document.  It
-% is prepared completely by the department PT committee.  Nothing from
-% the candidate is needed here
-
-\newpage
-
-\section*{6.\enspace External Evaluations}
-
-\subsection*{A.\enspace Sample Letter to External Evaluators}
-
-% Provided by the department PT committee.
-% Insert here a sample copy of the solicitation letter used.
-
-% For example, 
-%\includegraphics[scale=0.75]{Sample_Letter.pdf}
-%
-
-\newpage
-
-\subsection*{B.\enspace Qualifications of External Evaluators}
-
-% Provided by the department PT committee.
-
-\noindent Department promotion procedures require that at least 5
-external letters be solicited.
-
-% Put letter writers in alphabetical order.
-
-\medskip
-\noindent
-{\bf Letter Writer A} (chosen by the department)\\
-address line 1\\
-address line 2\\
-address line 3
-
-\medskip
-\noindent
-{\bf Letter Writer B} (chosen from the candidate's list)\\
-address line 1\\
-address line 2\\
-address line 3
-
-\bigskip
-\vfill
-\noindent Biographical sketches begin on the next page.
-
-% Insert here excuses from those asked who did not write.
-%
-%\noindent Professor Super Important (Great University), chosen
-%from the department list, declined, writing ``I am sorry to say that I
-%am too busy to provide an assessment of Dr. Candidate's work. 
-
-
-\newpage
-
-% Put letter writers in alphabetical order.
-
-\noindent
-{\bf Letter Writer A} (chosen by the department)\\
-biographical sketch here.
-
-\bigskip
-\noindent
-{\bf Letter Writer B} (chosen from the candidate's list)\\
-biographical sketch here.
-
-
-\vfill
-
-\subsection*{C.\enspace Letters from External Evaluators}
-
-% Provided by the department PT committee.
-
-See the following pages.
-
-%\includepdf[pages=-,fitpaper=true,pagecommand={}]{NameLetters.pdf}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% VII. EO Comments
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newpage
-%
-\section*{7.\enspace Special Comments by the Unit Executive
-Officer (NAME)}
-
-%
-% Provided by the department chair, for the eventual promotion
-% document.  Prepared AFTER the rest of the dossier. These comments 
-% may discuss votes and other aspects of the committee's deliberation,
-% and issues not otherwise addressed in the dossier.  They are not
-% normally reviewed by the P&T Committee.
-%
 
 \end{document}
 
@@ -802,7 +655,9 @@ Officer (NAME)}
 %
 % UPDATED per Sandee Moore: Tues 1 Jan 2011 11:00 AM CDT
 %
-% UPDATED by Matthew Ando June 3 2017
+% UPDATED by Matthew Ando: June 3 2017
+%
+% UPDATED by Nathan Dunfield: September 2022
 %
 % Originally known as PT1template.tex
 % For technical help/questions hildebr@math.uiuc.edu was the original contact
