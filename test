@@ -111,7 +111,7 @@
 % Candidate name
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\candidatename{John Q.~Smith}
+\candidatename{Zhiyu Quan}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,9 +140,9 @@
 % date of degree.
 
 \begin{itemize}
-\item 
-\item 
-\item 
+\item Xiamen University; B.S., Mathematics and Applied Mathematics; July, 2012.
+\item Michigan State University; M.S., Applied Statistics; May, 2014.
+\item University of Connecticut; Ph.D., Mathematics with Thesis in Actuarial Science; December, 2019.
 \end{itemize}
 
 \subsection{B}{List of Academic Positions since Final Degree}
@@ -150,9 +150,9 @@
 % For each regular position, list inclusive dates, title, and location.
 
 \begin{itemize}
-\item 
-\item 
-\item 
+\item August, 2020 to present, Assistant Professor, Department of Mathematics.
+\item May, 2021 to present, Affiliate Assistant Professor, Department of Statistics.
+\item June, 2021 to present, Affiliate Assistant Professor, National Center for Supercomputing.
 \end{itemize}
 
 \subsection{C}{Other Professional Employment}
@@ -160,9 +160,7 @@
 % This is the place to put visiting appointments, etc.
 
 \begin{itemize}
-\item
-\item
-\item
+\item June, 2022 to July, 2022, Visiting appointment, The UR International Summer School, Facultad de Economia at the Universidad del Rosario (Del Rosario University).
 \end{itemize}
 
 \subsection{D}{Honors, Recognition, and Outstanding
@@ -174,9 +172,10 @@
 %
 
 \begin{itemize}
-\item
-\item
-\item
+\item 2018, Doctoral Student Travel Award, University of Connecticut.
+\item 2019, Doctoral Dissertation Fellowship, University of Connecticut.
+\item 2019, ARC Presentation Prizes - Honorable Mention, Society of Actuaries.
+\item 2021, Arnold O. Beckman Research Award, University of Illinois at Urbana-Champaign.
 \end{itemize}
 
 
@@ -195,9 +194,13 @@
 % Do not include presentations at UIUC.  
 
 \begin{itemize}
-\item
-\item
-\item
+\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, McGill Seminar Series in Statistics, Department of Mathematics and Statistics at the McGill University, Montréal, Canada, 08 October 2021.
+\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, Lecture of Statistics, Department of Statistics at the Renmin University, Beijing, China, 13 October 2021.
+\item Imbalanced Learning using Actuarial Modified Loss Function in Tree-Based Models, AMS AFM Seminar Series, Department of Actuarial Mathematics and Statistics at the Heriot-Watt University, Edinburgh, United Kingdom, 02 February 2022.
+\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the 35th New England Statistics Symposium (NESS): Statistics, the Heart of Data Science, Department of Statistics at the University of Connecticut, Storrs, USA, 22-23 May 2022.
+\item Data Science for Insurance Analytics, The UR International Summer School, Facultad de Economia at the Universidad del Rosario (Del Rosario University), Bogota, Colombia, 20 June - 06 July 2022.
+\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the Fifth ICSA-Canada Chapter Symposium, International Chinese Statistical Association, Banff, Canada, 08-10 July 2022.
+\item Improving Business Insurance Loss Models by Leveraging InsurTech Innovation, the Joint Statistical Meetings (JSM) 2022, American Statistical Association, Washington DC, USA, 06-11 August 2022.
 \end{itemize}
 
 \subsection{F}{Offices Held in Professional Societies}
@@ -206,11 +209,7 @@
 %
 %     None.
 
-\begin{itemize}
-\item
-\item
-\item
-\end{itemize}
+None.
 
 \subsection{G}{Editorships of Journals or Other Learned
   Publications}
@@ -219,11 +218,7 @@
 %
 %     None.
 
-\begin{itemize}
-\item
-\item
-\item
-\end{itemize}
+ None.
 
 \subsection{H}{Grants Received}
 
@@ -240,9 +235,18 @@
 % for a third-year review.
 
 \begin{itemize}
-\item
-\item
-\item
+\item Committee on Knowledge Extension Research Travel Grants, PI: Zhiyu Quan, Society of Actuaries, August, 2018, \$1000.
+\item Committee on Knowledge Extension Research Travel Grants, PI: Zhiyu Quan, Society of Actuaries, August, 2019, \$1000.
+\item InsurTech Research Grant, PI: Zhiyu Quan, Carpe Data, September, 2020, \$5000.
+\item Arnold O. Beckman Research Award, PI: Zhiyu Quan,  University of Illinois at Urbana–
+Champaigns Campus Research Board, March, 2021, \$23248.
+\item Centers of Actuarial Excellence, PI: Zhiyu Quan with Runhuan Feng (PI), Jay Kesan (PI), Wing Fung Chong (PI) and Daniel Linders (PI), Society of Actuaries, June, 2021, \$10000.
+\item Summer InsurTech Research Grant, PI: Zhiyu Quan, Carpe Data, July, 2021, \$5000.
+\item Azure Compute Credits, PI: Zhiyu Quan, Microsoft, September, 2021, \$5000.
+\item Cyber Research Grant, PI: Zhiyu Quan with Runhuan Feng (PI), AXIS Capital, January, 2022, \$20000.
+\item SOA Research Institute \& General Insurance Research, PI: Zhiyu Quan with Runhuan Feng (co-PI), Linfeng Zhang (co-PI), and Wing Fung Chong (co-PI), Society of Actuaries, March, 2022, \$21635.
+\item NCSA Fellowships, PI: Zhiyu Quan, National Center for Supercomputing Applications, June, 2022, \$24947.
+\item Intel Labs Research Grant, PI: Zhiyu Quan with Runhuan Feng (PI), Tianyang Wang (PI), National Center for Supercomputing Applications, September, 2022, \$25000.  
 \end{itemize}
 
 \subsection{I}{Review Panels}
@@ -255,9 +259,8 @@
 % those can be listed under service to the university.
 
 \begin{itemize}
-\item
-\item
-\item
+\item Advisor for the SOA InsurTech Office Hours, Society of Actuaries.
+\item Task force for Actuaries and Open Educational Resources.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -347,66 +350,44 @@ alphabetical order.
 % \end{enumerate
 
 \begin{enumerate}
-\item \emph{}, , pages. \newline (advisor )
+\item \emph{Insurance Analytics with Tree-Based Models}, 2019, 153 pages. \newline (advisor Emiliano A. Valdez)
 \end{enumerate}
 
 \subsectionwithnote{B}{Books Authored or Co-Authored}{in print or accepted}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
 
 \subsectionwithnote{C}{Books Edited or Co-Edited}{in print or accepted}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
 
 \subsectionwithnote{D}{Chapters in Books}{in print or accepted}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
 
 \subsectionwithnote{E}{Monographs}{in print or accepted}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
 
 \subsectionwithnote{F}{Articles in Journals}{in print or accepted}
 
 \begin{enumerate}
-\item
-\item
-\item
+\item $\ast\;$ \#\quad Quan, Zhiyu and Valdez, Emiliano A.. ``Predictive analytics of insurance claims using multivariate decision trees" Dependence Modeling, vol. 6, no. 1, 2018, pp. 377-407. https://doi.org/10.1515/demo-2018-0022
+\item $\ast\;$ \#\quad Quan, Zhiyu, Gan, Guojun and Valdez, Emiliano A.. ``Tree-based models for variable annuity valuation: Parameter tuning and empirical analysis" Annals of Actuarial Science, vol. 16, no. 1, 2022, pp. 95-118. https://doi:10.1017/S1748499521000075
+\item $\ast\;$\quad Hu, Changyue, Quan, Zhiyu and Chong, Wing Fung. ``Imbalanced learning for insurance using modified loss functions in tree-based models" Insurance: Mathematics and Economics, vol. 106, 2022, pp. 13-32. https://doi.org/10.1016/j.insmatheco.2022.04.010
 \end{enumerate}
 
 \subsection{G}{Creative Works}
 % (Exhibitions, Commissions, Competitions, Performances, Designs, Art
 % or Architecture Executed)
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
+
 
 \subsection{H}{Patents}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
+
 
 
 \subsectionwithnote{I}%
@@ -414,35 +395,21 @@ alphabetical order.
 {in print or accepted}
 
 \begin{enumerate}
-\item
-\item
-\item
+\item Gan, Guojun, Quan, Zhiyu and Valdez, Emiliano A.. ``Machine Learning Techniques for Variable Annuity Valuation" 2018 4th International Conference on Big Data and Information Analytics (BigDIA), 2018, pp. 1-6. https://doi.org/10.1109/BigDIA.2018.8632794
 \end{enumerate}
 
 
 \subsectionwithnote{J}{Abstracts}{in print or accepted}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
 
 \subsectionwithnote{K}{Book Reviews}{in print or accepted}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
 
 \subsection{L}{Refereed Conference Papers and Presentations}
 
-\begin{enumerate}
-\item
-\item
-\item
-\end{enumerate}
+None.
 
 \subsection{M}{Other}
 
@@ -453,9 +420,13 @@ alphabetical order.
 % examine the work.  
 
 \begin{enumerate}
-\item
-\item
-\item
+\item Quan, Zhiyu, Wang, Zhiguo, Gan, Guojun and Valdez, Emiliano A.. ``Hybrid tree-based models for insurance claims" Probability in the Engineering and Informational Sciences, submitted after major revision, pp. 1-31.
+\item Yang, Haoming and Quan, Zhiyu. ``Natural language processing application in actuarial science: Interpretable language models" In preparation, pp. 1-26.
+\item Chong, Wing Fung, Linders, Daniel, Quan, Zhiyu and Zhang, Linfeng. ``Incident-specific cyber insurance for market substantiality and Potential Growth" In preparation, pp. 1-30.
+\item Quan, Zhiyu, Hu, Changyue, Dong, Panyi and Valdez, Emiliano A.. ``Improving business insurance loss models by leveraging InsurTech innovation" In preparation, pp. 1-12.
+%\item Zhang, Linfeng, Quan, Zhiyu, Feng, Runhuan and Chong, Wing Fung. ``Building an NLP-powered repository and search tool for cyber risk literature" In preparation, pp. 1-5.
+\item Asimit, Vali, Badescu, Alexandru, Quan, Zhiyu and Zhou, Feng. ``Efficient and proper GLM modelling" In preparation, pp. 1-24.
+\item Panyi, Dong and Quan, Zhiyu. ``Automated Machine Learning in Insurance" In preparation, pp. 1-12.
 \end{enumerate}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -515,9 +486,11 @@ alphabetical order.
 % from supervision of a thesis. 
 
 \begin{itemize}
-\item
-\item
-\item
+\item Changyue, Hu, M.S., 2020, ``Imbalanced learning using actuarial modified loss function in tree-based models,'' now at the University of Illinois at Urbana-Champaign.
+\item Changyue, Hu, Ph.D., 2021, second year Ph.D. candidate with one peer-reviewed academic journal ``Imbalanced learning for insurance using modified loss functions in tree-based models.''
+\item Panyi, Dong, Ph.D., 2022, first year Ph.D. student.
+\item Served on thesis defense committee at the University of Illinois at Urbana-Champaign: Longhao Jin, Ph.D. Defense, March 2022.
+\item Served on preliminary examination comittee at the University of Illinois at Urbana-Champaign: Longhao Jin, Feburary 2021.
 \end{itemize}
 
 
@@ -532,9 +505,21 @@ alphabetical order.
 % Keisha, Fall 2012, supervised her senior honor's thesis). 
 
 \begin{itemize}
-\item
-\item
-\item
+\item Ramsha Ahmed (AS-BS), Shaowen Chang (AS-MS), Ishaan Khanna (AS-BS), Evelyn Lai (AS-BS), Emmelyn Luveta (AS-BS), Carina Su (AS-BS), Yao Xiao (AS-BS), Fall 2020, IRisk Lab research project: Cyber Risk Data Analysis.
+\item Jingbin Cao (AS-MS), Zhehui Chen (STAT-MS), Shuyue Deng (AS-MS), Jinglun Gao (MATH-BS), Changyue Hu (AS-MS), Rustom Ichhaporia (STAT-BS), Jiaxin Jiang (MATH-BS), Wenjie Liu (MATH-BS), Hanqing Wang (STAT-MS), Jiayi Wang (STAT-MS), Diwen Xu (MATH-BS), Wenxiao Yang (MATH-BS), Haochen Zhong (AS-BS),  Xinlei Zhu (MATH-BS), Fall 2020, IRisk Lab research project: AI-Powered Lifecycle Financial Planning.
+\item Wennan Huang (STAT-MS), Ziling Shen (AS-BS), Boyuan Wang (STAT-MS), Yue Wang (AS-MS), Haoming Yang (STAT-BS), Yuanyuan Zhang (STAT-MS), Fall 2020, IRisk Lab research project: Using Text Mining and Natural Language Processing (NLP) to Extract Actuarial-Related Information from Online Customer Reviews for Businesses.
+\item Qingxuan Kong (STAT-MS), Ruiqi Liu (AS-MS), Yue Wang (AS-MS), Zhehui Chen (STAT-MS), Priyansh Barodia (AS-BS), Jiusi Li (MATH-BS), Puja Patel (AS-BS), Carol Song (STAT-BS), Hui Yang (STAT-MS), Quanyu Zuo (AS-BS), Spring 2021, IRisk Lab research project: Pekin Insurance General Liability Insurance (GL) Loss Predictive Model.
+\item Changyue Hu (AS-MS), Emmelyn Luveta (AS-BS), Haoming Yang (STAT-BS), Jingbin Cao (AS-MS), Man Chong Chan (STAT-MS), Jize Jiang (MATH-BS), Christopher Kim (AS-MS), Victoria Meng (STAT-BS), Zhaohong Wang (STAT-MS), Zihao Xia (AS-BS), Spring 2021, IRisk Lab research project: COUNTRY Financial Business Owner's Policy (BOP) Loss Predictive Model
+\item Bowen Dong (STAT-BS), Hanling Zhang (MATH-BS), Sicheng He (STAT-MS), Yiming Zhu (MATH-BS), Fall 2021, IRisk Lab research project: Luyan Sales Data Analysis.
+\item Christopher Kim (AS-MS), Man Chong Chan (STAT-MS), Minwoo Sung (AS-BS), Jize Jiang (MATH-BS), Krishna Desikan (STAT-BS), Zhijia Li (CE-MS), Fall 2021, IRisk Lab research project:  COUNTRY Financial Business Owner's Policy (BOP) Loss Predictive Model.
+\item Andy Brown (AS-BS), Xiangyi Tang (AS-MS), Yifan Wang (AS-MS), Fall 2021, IRisk Lab research project: AXIS Systemic Cyber Threats.
+\item Panyi Dong (AS-MS), Weiyang Wang (MATH-BS), Fall 2021, IRisk Lab research project: Automated Machine Learning (AutoML).
+\item Bowen  Dong (STAT-BS), Hanling Zhang (MATH-BS), Sicheng He (STAT-MS), Yiming Zhu (MATH-BS), Spring 2022, IRisk Lab research project: Luyan Sales Data Analysis.
+\item Panyi Dong (AS-MS), Muhan Zhang (MATH-BS), Riki Terada (STAT-BS), Spring 2022, IRisk Lab research project: Insurtech Innovation via Natural Language Processing (NLP)
+\item Man Chong Chan (STAT-MS), Minwoo Sung (AS-BS), Spring 2022, IRisk Lab research project: Insurtech COUNTRY Financial Loss Model.
+\item David An (MATH-BS), Catherine Zhao (MATH-BS), Spring 2022, IRisk Lab research project: Building an NLP-Powered Repository and Search Tool for Cyber Risk Literature.
+\item Ally Muhammad Ispandi (AS-BS), Hongfei Chen (AS-BS), Jasmine Liao (AS-BS), Stuart Seputro (AS-BS), Xin Ma (AS-MS), Spring 2022, IRisk Lab research project: AXIS Systemic Cyber Threats.
+\item Baoyu Li (STAT-BS), Lahari Pisupati (CS-BS), Li Ju (ECON-BS), Ron Basak (STAT-BS), Xingzhong Fan (STAT-MS), Spring 2022, IRisk Lab research project: Automated Machine Learning (AutoML)
 \end{itemize}
 
 
@@ -555,13 +540,24 @@ alphabetical order.
 
 \begin{itemize}
 \subitem{1}{Curriculum research and development}
-  
+
+\begin{itemize}
+\item Developed new course: ASRM 455, ASRM 555.
+\item Increased accessibility and equity in a course or learning materials: ASRM 555 online version.
+\item Substantially revised existing course: ASRM 569.
+\end{itemize}
+
 \subitem{2}{Educational service}
-
+None.
 \subitem{3}{Personal development}
-
+\begin{itemize}
+\item Earned instructional certification: Illinois Summer Teaching Institute (ISTI).
+\item Participated in instructional development training or workshop: Spring 2021 Faculty Workshop Series on Teaching \& Learning.
+\end{itemize}
 \subitem{4}{Informal student mentoring and support}
-
+\begin{itemize}
+\item Contributed to student learning outside courses: Provide faculty support for Actuarial Science Club Illinois.
+\end{itemize}
 \subitem{5}{Other}
 
 \end{itemize}
@@ -582,7 +578,6 @@ alphabetical order.
 
 \subsection{A}{Summary of Service}
 
-
 \begin{enumerate}
 
 \subitem{1}{Public Engagement}
@@ -591,8 +586,12 @@ alphabetical order.
 % included.
 %
 % If none, enter
-%
-%%      None.
+% None.
+
+\begin{itemize}
+\item 2020--2021, Advisor for the SOA InsurTech Office Hours, Society of Actuaries.
+\item 2021, Task force for Actuaries and Open Educational Resources
+\end{itemize}
 
 
 \subitem{2}{Service to Disciplinary and Professional Societies or Associations}
@@ -609,7 +608,37 @@ alphabetical order.
 % them here so that they can be discussed as part of the
 % departmental evaluation of service. 
 
+\begin{itemize}
+
+\item 2020--2022, Organizing committee (co-chair) of the 57th Actuarial Research Conference 2022, Society of Actuaries, University of Illinois at Urbana-Champaign.
+\item 2021, Organizing committee of Risk Analytics Symposium 2021: Actuarial Innovations to Emerging Risks, Illinois Risk Lab, University of Illinois at Urbana-Champaign.
+\item 2021, Organizing committee of the 24th International Congress on Insurance: Mathematics and Economics, University of Illinois at Urbana-Champaign.
+\item 2021 to present, Organizing Actuarial Science and Financial Mathematics Seminar Series, University of Illinois at Urbana-Champaign.
+\item 2022, Organizing committee of Risk Analytics Symposium 2022: Actuarial Perspectives on Climate Change, Illinois Risk Lab, University of Illinois at Urbana-Champaign.
+\item Review 5-10 papers each year for actuarial and data science journals including: nsurance: Mathematics
+and Economic, ASTIN Bulletin, North American Actuarial Journal, Open Computer Science, Variance, Campus Research Board.
+\end{itemize}
+
+
 \subitem{3}{University and/or Campus Service} 
+
+\begin{itemize}
+\item 2020, Prizes Committee at the University of Illinois at Urbana-Champaign.
+\item 2020 to present, Faculty advisor of Illinois Risk Lab at the University of Illinois at Urbana-Champaign.
+\item 2020 to present, Screening and interviewing of doctoral applicants for Actuarial Science program at the University of Illinois at Urbana-Champaign, 2020: 38 candidates, 2021: 31 candidates.
+\item 2021 to present, Comprehensive Exam (MATH 563) Committee at the University of Illinois at Urbana-Champaign.
+\item 2021, Alumni Award Committee at the University of Illinois at Urbana-Champaign.
+\item 2021, Screening 85 master’s applicants for Actuarial Science program at the University of Illinois at Urbana-Champaign.
+\item 2021, Screening scholarship applications for Actuarial Science program at the University of Illinois at Urbana-Champaign.
+\item 2021, Search committee for tenure-track professor positions in Actuarial Science at the University of Illinois at Urbana-Champaign.
+\item 2021, Search committee for academic advisor positions in Actuarial Science at the University of Illinois at Urbana-Champaign.
+\item 2021 to present, Corporate engagement for Predictive Analytics \& Risk Management co-op program.
+\item 2022, Computer Steering Committee at the University of Illinois at Urbana-Champaign.
+\item 2022, Screening 184 master’s applicants for Predictive Analytics \& Risk Management program at the University of Illinois at Urbana-Champaign.
+\item 2022, Search committee (diversity advocate) for lecturer/instructor positions in Actuarial Science at the University of Illinois at Urbana-Champaign.
+\item 2022, Search committee for tenure-track professor positions in Actuarial Science at the University of Illinois at Urbana-Champaign.
+\item 2022, Search committee for academic program specialist positions in Actuarial Science at the University of Illinois at Urbana-Champaign.
+\end{itemize}
 
 \subitem{4}{Other Service}
 
